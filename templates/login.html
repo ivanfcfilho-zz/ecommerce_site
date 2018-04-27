@@ -19,21 +19,29 @@
     <div class="container">
       <div class="header">
           <nav>
-              <ul class="nav nav-pills pull-right">
-                  <li role="presentation" ><a href="/">Home</a></li>
+              <ul class="nav justify-content-end">
+                  <li class="nav-item" role="presentation" >
+                    <a class="nav-link"class="nav-link" href="/">Home</a>
+                  </li>
                   {% if session['username'] %}
-                  <li role="presentation"><a href="/logout">Logout<a></li>
+                  <li class="nav-item" role="presentation">
+                    <a class="nav-link" href="/logout">Logout<a>
+                  </li>
                   {% else %}
-                  <li role="presentation"><a href="/login">Sign In</a></li>
-                  <li role="presentation" class="active"><a href="/signup">Sign Up</a></li>
+                  <li class="nav-item" role="presentation">
+                    <a class="nav-link" href="/login">Sign In</a>
+                  </li>
+                  <li class="nav-item" role="presentation" class="active">
+                    <a class="nav-link" href="/signup">Sign Up</a>
+                  </li>
                   {% endif %}
               </ul>
         </nav>
-        <h3 class="text-muted">Python Flask App</h3>
+        <h3 class="text-muted">E-Commerce Store</h3>
       </div>
 
-      <div class="jumbotron">
-        <h1>Bucket List App</h1>
+      <div class="jumbotron text-center">
+        <h1>Login</h1>
         <form class="form-signin">
             <label for="inputEmail" class="sr-only">Email</label>
             <input type="email" name="email" id="email" class="form-control" placeholder="Email address" required autofocus>
@@ -47,7 +55,7 @@
       
 
       <footer class="footer">
-        <p>&copy; Company 2015</p>
+        <p>&copy; Clientes_02 2018</p>
       </footer>
 
     </div>

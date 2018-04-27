@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Python Flask Bucket List App</title>
+    <title>E-Commerce Store</title>
 
    
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -16,52 +16,59 @@
     <div class="container">
       <div class="header">
           <nav>
-              <ul class="nav nav-pills pull-right">
-                  <li role="presentation" ><a href="/">Home</a></li>
+              <ul class="nav justify-content-end">
+                  <li class="nav-item" role="presentation" >
+                    <a class="nav-link"class="nav-link" href="/">Home</a>
+                  </li>
                   {% if session['username'] %}
-                  <li role="presentation"><a href="/logout">Logout<a></li>
+                  <li class="nav-item" role="presentation">
+                    <a class="nav-link" href="/logout">Logout<a>
+                  </li>
                   {% else %}
-                  <li role="presentation"><a href="/login">Sign In</a></li>
-                  <li role="presentation" class="active"><a href="/signup">Sign Up</a></li>
+                  <li class="nav-item" role="presentation">
+                    <a class="nav-link" href="/login">Sign In</a>
+                  </li>
+                  <li class="nav-item" role="presentation" class="active">
+                    <a class="nav-link" href="/signup">Sign Up</a>
+                  </li>
                   {% endif %}
               </ul>
-
         </nav>
-        <h3 class="text-muted">Python Flask App</h3>
+        <h3 class="text-muted">E-Commerce Store</h3>
       </div>
 
-      <div class="jumbotron">
-        <h1>Bucket List App</h1>
+      <div class="jumbotron text-center">
+        <h1>Site under construction</h1>
         <p class="lead"></p>
-        <p><a class="btn btn-lg btn-success" href="showSignUp" role="button">Sign up today</a></p>
+        <p><a class="btn btn-lg btn-success" href="/signup" role="button">Sign up today</a></p>
       </div>
 
       <div class="row marketing">
         <div class="col-lg-6">
-          <h4>Bucket List</h4>
-          <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+          <h4>Produto Exemplo</h4>
+          <p>Descrição do Produto.</p>
 
-          <h4>Bucket List</h4>
-          <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+          <h4>Produto Exemplo</h4>
+          <p>Descrição do Produto.</p>
 
-          <h4>Bucket List</h4>
-          <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+          <h4>Produto Exemplo</h4>
+          <p>Descrição do Produto.</p>
         </div>
 
         <div class="col-lg-6">
-          <h4>Bucket List</h4>
-          <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+          <h4>Produto Exemplo</h4>
+          <p>Descrição do Produto.</p>
 
-          <h4>Bucket List</h4>
-          <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+          <h4>Produto Exemplo</h4>
+          <p>Descrição do Produto.</p>
 
-          <h4>Bucket List</h4>
-          <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+          <h4>Produto Exemplo</h4>
+          <p>Descrição do Produto.</p>
         </div>
       </div>
 
       <footer class="footer">
-        <p>&copy; Company 2015</p>
+        <p>&copy; Clientes_02 2018</p>
       </footer>
 
     </div>

@@ -1,77 +1,116 @@
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>E-Commerce Store</title>
-
+<head>
+  <title>E-Commerce Store</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+    /* Remove the navbar's default rounded borders and increase the bottom margin */ 
+    .navbar {
+      margin-bottom: 50px;
+      border-radius: 0;
+    }
+    
+    /* Remove the jumbotron's default bottom margin */ 
+     .jumbotron {
+      margin-bottom: 0;
+    }
    
-    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    /* Add a gray background color and some padding to the footer */
+    footer {
+      background-color: #f2f2f2;
+      padding: 25px;
+    }
+  </style>
+</head>
+<body>
 
-    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+<div class="jumbotron">
+  <div class="container text-center">
+    <h1>E-Commerce</h1>
+    <p>Clientes 02<p>
+  </div>
+</div>
 
-   
-  </head>
-
-  <body>
-    <div class="container">
-      <div class="header">
-          <nav>
-              <ul class="nav justify-content-end">
-                  <li class="nav-item" role="presentation" >
-                    <a class="nav-link"class="nav-link" href="/">Home</a>
-                  </li>
-                  {% if session['username'] %}
-                  <li class="nav-item" role="presentation">
-                    <a class="nav-link" href="/logout">Logout<a>
-                  </li>
-                  {% else %}
-                  <li class="nav-item" role="presentation">
-                    <a class="nav-link" href="/login">Sign In</a>
-                  </li>
-                  <li class="nav-item" role="presentation" class="active">
-                    <a class="nav-link" href="/signup">Sign Up</a>
-                  </li>
-                  {% endif %}
-              </ul>
-        </nav>
-        <h3 class="text-muted">E-Commerce Store</h3>
-      </div>
-
-      <div class="jumbotron text-center">
-        <h1>Site under construction</h1>
-        <p class="lead"></p>
-        <p><a class="btn btn-lg btn-success" href="/signup" role="button">Sign up today</a></p>
-      </div>
-
-      <div class="row marketing">
-        <div class="col-lg-6">
-          <h4>Produto Exemplo</h4>
-          <p>Descrição do Produto.</p>
-
-          <h4>Produto Exemplo</h4>
-          <p>Descrição do Produto.</p>
-
-          <h4>Produto Exemplo</h4>
-          <p>Descrição do Produto.</p>
-        </div>
-
-        <div class="col-lg-6">
-          <h4>Produto Exemplo</h4>
-          <p>Descrição do Produto.</p>
-
-          <h4>Produto Exemplo</h4>
-          <p>Descrição do Produto.</p>
-
-          <h4>Produto Exemplo</h4>
-          <p>Descrição do Produto.</p>
-        </div>
-      </div>
-
-      <footer class="footer">
-        <p>&copy; Clientes_02 2018</p>
-      </footer>
-
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/">Home</a></li>
+        <li><a href="#">Products</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        {% if session['username'] %}
+        <li class="nav-item" role="presentation"><a class="nav-link" href="/logout">Logout</a></li>
+        {% else %}
+        <li class="nav-item" role="presentation"><a class="nav-link" href="/login">Sign In</a></li>
+        <li class="nav-item" role="presentation" class="active"><a class="nav-link" href="/signup">Sign Up</a></li>
+        {% endif %}
+      </ul>
     </div>
-  </body>
+  </div>
+</nav>
+
+<div class="container">    
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">Produto X</div>
+        <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
+        <div class="panel-footer">Descrição</div>
+      </div>
+    </div>
+    <div class="col-sm-4"> 
+      <div class="panel panel-danger">
+        <div class="panel-heading">Produto X</div>
+        <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
+        <div class="panel-footer">Descrição</div>
+      </div>
+    </div>
+    <div class="col-sm-4"> 
+      <div class="panel panel-success">
+        <div class="panel-heading">Produto X</div>
+        <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
+        <div class="panel-footer">Descrição</div>
+      </div>
+    </div>
+  </div>
+</div><br>
+
+<div class="container">    
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">Produto X</div>
+        <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
+        <div class="panel-footer">Descrição</div>
+      </div>
+    </div>
+    <div class="col-sm-4"> 
+      <div class="panel panel-primary">
+        <div class="panel-heading">Produto X</div>
+        <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
+        <div class="panel-footer">Descrição</div>
+      </div>
+    </div>
+    <div class="col-sm-4"> 
+      <div class="panel panel-primary">
+        <div class="panel-heading">Produto X</div>
+        <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
+        <div class="panel-footer">Descrição</div>
+      </div>
+    </div>
+  </div>
+</div><br><br>
+
+<footer class="container-fluid text-center">
+  <p>&copy; Clientes_02 2018</p> 
+</footer>
+
+</body>
 </html>
 

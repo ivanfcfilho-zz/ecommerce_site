@@ -31,11 +31,38 @@ def ajaxLogin():
         print('Erro')
     return r
 
-@app.route('/logout')
+@app.route('/logout', methods=['GET'])
 def logout():
     session.pop('username', None)
     session.modified = True
     return render_template('index.html')
+    
+@app.route('/product/<string:productId>')
+def productPage(productId):
+    return render_template('product.html')
+
+@app.route('/product_details/<string:productId>')
+def showProduct(productId):
+    r = aj.getProduct(productId)
+    if(r[1] != 200):
+        print('Erro')
+    return r
+
+@app.route('/product_search/')
+def searchProduct():
+    dic = {}
+    if(request.args.get('brand')): dic["brand"] = request.args.get('brand')
+    if(request.args.get('category_id')): dic["category_id"] = request.args.get('category_id')
+    if(request.args.get('highlight')): dic["highlight"] = request.args.get('highlight')
+    if(request.args.get('max_price')): dic["max_price"] = request.args.get('max_price')
+    if(request.args.get('min_price')): dic["min_price"] = request.args.get('min_price')
+    if(request.args.get('name')): dic["name"] = request.args.get('name')
+    if(request.args.get('page')): dic["page"] = request.args.get('page')
+    if(request.args.get('parent_product')): dic["parent_product"] = request.args.get('parent_product')
+    r = aj.searchProduct(dic)
+    if(r[1] != 200):
+        print('Erro')
+    return r
 
 if __name__ == "__main__":
     app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'

@@ -39,13 +39,13 @@
   <div class="container-fluid">
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
+        <li class="active"><a href="/">Home</a></li>
         <li><a href="#">Products</a></li>
         <li><a href="#">Contact</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         {% if session['username'] %}
-        <li class="nav-item" role="presentation"><a class="nav-link" href="/logout">Logout<a></li>
+        <li class="nav-item" role="presentation"><a class="nav-link" href="/logout">Logout</a></li>
         {% else %}
         <li class="nav-item" role="presentation"><a class="nav-link" href="/login">Sign In</a></li>
         <li class="nav-item" role="presentation" class="active"><a class="nav-link" href="/signup">Sign Up</a></li>

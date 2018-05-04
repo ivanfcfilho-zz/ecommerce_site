@@ -5,7 +5,7 @@ class Ajax():
     
     def __init__(self):
         #self.url = 'http://127.0.0.1:5001'
-        self.url = 'www.gentle-waters-56547.herokuapp.com'
+        self.url = 'http://www.gentle-waters-56547.herokuapp.com'
 
     def signUp(self, data):
         data = dict((key, data.getlist(key)[0]) for key in data.keys())

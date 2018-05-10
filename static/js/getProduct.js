@@ -1,6 +1,6 @@
 $(document).ready(function () {
     productId = window.location.pathname.replace('/product/','');
-    $.getJSON( "/product_details/"+productId, function( data ) {
+    $.getJSON( "/ajax/product_details/"+productId, function( data ) {
         $("#name").text(data["name"].toLowerCase());
         $("#price").text("R$ " + data["price"].toFixed(2));
         
@@ -26,7 +26,7 @@ $(document).ready(function () {
         $("#imageUrl").attr("src",data["imageUrl"]);
         
         categoryQuery = "?category_id=" + data["categoryId"];
-        $.getJSON( "/product_search/"+categoryQuery, function(data2) {
+        $.getJSON( "/ajax/product_search/"+categoryQuery, function(data2) {
             var items = [];
             total = 0;
             $.each( data2, function(index, value) {

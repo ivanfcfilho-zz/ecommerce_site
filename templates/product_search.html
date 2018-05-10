@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<meta charset="utf-8"/>
+<html lang="en">
+<head>
+  <title>E-Commerce Store</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="../static/js/jquery-1.11.2.js"></script>
+  <script src="../static/js/searchProduct.js"></script>
+  
+  <style>
+    /* Remove the navbar's default rounded borders and increase the bottom margin */ 
+    .navbar {
+      margin-bottom: 50px;
+      border-radius: 0;
+    }
+    
+    /* Remove the jumbotron's default bottom margin */ 
+     .jumbotron {
+      margin-bottom: 0;
+    }
+   
+    /* Add a gray background color and some padding to the footer */
+    footer {
+      background-color: #f2f2f2;
+      padding: 25px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="jumbotron">
+  <div class="container text-center">
+    <h1>E-Commerce</h1>
+    <p>Clientes 02<p>
+  </div>
+</div>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="/">Home</a></li>
+        <li class="active"><a href="#">Products</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        {% if session['username'] %}
+        <li class="nav-item" role="presentation"><a class="nav-link" href="/logout">Logout</a></li>
+        {% else %}
+        <li class="nav-item" role="presentation"><a class="nav-link" href="/login">Sign In</a></li>
+        <li class="nav-item" role="presentation" class="active"><a class="nav-link" href="/signup">Sign Up</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <h3>Filtro</h3>
+  <form>
+    <div class="form-group row">
+      <div class="col-xs-2">
+        <label>Buscar Categoria</label>
+        <input class="form-control" id="categoryFilter" type="text">
+      </div>
+      <div class="col-xs-2"><br><button id="btnCategory" type="button" class="btn btn-success">Buscar Categoria</button></div>
+    </div>
+    <div class="form-group row">
+      <div class="col-xs-2">
+        <label>Categoria</label>
+        <p id="category" class="text-capitalize">Todas<p>
+        <p id="categoryId" hidden><p>
+      </div>
+      <div class="col-xs-2">
+        <label>Nome</label>
+        <input class="form-control" id="nameFilter" type="text">
+      </div>
+      <div class="col-xs-2">
+        <label>Preço Mínimo</label>
+        <input class="form-control" id="minPriceFilter" type="text">
+      </div>
+      <div class="col-xs-2">
+        <label>Preço Máximo</label>
+        <input class="form-control" id="maxPriceFilter" type="text">
+      </div>
+      <div class="col-xs-2">
+        <label>Marca</label>
+        <input class="form-control" id="brandFilter" type="text">
+      </div>
+      <div class="col-xs-2">
+        <br>
+        <label class="checkbox-inline"><input type="checkbox" value="" id="highlightFilter"><b>Produtos em Destaque</b></label>
+      </div>
+    </div>
+    <button id="btnFilter" type="button" class="btn btn-success">Filtrar</button>
+  </form>
+  <br>
+  <br>
+  <table class="table table-condensed table-hover">
+    <button id="btnPrevPage" type="button" class="btn pull-left">Página Anterior</button>
+    <button id="btnNextPage" type="button" class="btn pull-right">Próxima Página</button>
+    <thead>
+      <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+  <button id="btnPrevPage2" type="button" class="btn pull-left">Página Anterior</button>
+  <button id="btnNextPage2" type="button" class="btn pull-right">Próxima Página</button>
+</div>
+ 
+
+</div>
+<br><br>
+
+<footer class="container-fluid text-center">
+  <p>&copy; Clientes_02 2018</p> 
+</footer>
+
+</body>
+</html>
+

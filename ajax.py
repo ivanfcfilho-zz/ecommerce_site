@@ -45,3 +45,15 @@ class Ajax():
         url = self.url_product+"/products/"+query
         r = s.get(url)
         return r.text, r.status_code
+        
+    def searchCategory(self, params):
+        s = requests.Session()
+        query = ""
+        if params:
+            query = "?"
+            for key, value in params.items():
+                query += key+"="+value+"&"
+            query = query[:-1]
+        url = self.url_product+"/categories/"+query
+        r = s.get(url)
+        return r.text, r.status_code

@@ -13,6 +13,10 @@ def main():
 def showLogin():
     return render_template('login.html')
 
+@app.route('/update')
+def update():
+    return render_template('update.html')
+
 @app.route('/signup')
 def showSignUp():
     return render_template('signup.html')
@@ -41,14 +45,14 @@ def logout():
 def productPage(productId):
     return render_template('product.html')
 
-@app.route('/product_details/<string:productId>')
+@app.route('/ajax/product_details/<string:productId>')
 def showProduct(productId):
     r = aj.getProduct(productId)
     if(r[1] != 200):
         print('Erro')
     return r
 
-@app.route('/product_search/')
+@app.route('/ajax/product_search/')
 def searchProduct():
     dic = {}
     if(request.args.get('brand')): dic["brand"] = request.args.get('brand')

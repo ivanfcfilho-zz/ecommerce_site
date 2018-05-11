@@ -59,11 +59,12 @@ $(document).ready(function () {
             contentType: 'application/json',
             type: 'POST',
             success: function(data, textStatus, xhr){
-                    console.log(data, textStatus, xhr);
+                alert('Sucesso')
+                window.location.href = "/cart";
             },
             error: function(data, request, error){
-                //res = JSON.parse(data.responseText)
-                //alert('Error'+res.Message)
+                res = JSON.parse(data.responseText)
+                alert('Error'+res.Message)
                 console.log(error);
             }
         });

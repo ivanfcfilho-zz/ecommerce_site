@@ -73,7 +73,6 @@ $(document).ready(function () {
     });
     
     $('#btnCategory').click(function(){
-        var newParams = {}
         if ($("#categoryFilter").val()) {
             var categoryId = null
             param = $("#categoryFilter").val()
@@ -90,9 +89,14 @@ $(document).ready(function () {
                     var err = textStatus + ", " + error
                     console.log( "Category Request Failed: " + err )
                 });
-            newParams.category_id = categoryId;
         }
     });
+    
+    $('#btnCategoryReset').click(function(){
+        $("#categoryId").text("");
+        $("#category").text("todas");
+    });
+    
 });
 
 

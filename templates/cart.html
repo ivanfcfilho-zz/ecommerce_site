@@ -9,7 +9,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="../static/js/jquery-1.11.2.js"></script>
-  <script src="../static/js/getProduct.js"></script>
+  <script src="../static/js/cart.js"></script>
   
   <style>
     /* Remove the navbar's default rounded borders and increase the bottom margin */ 
@@ -45,13 +45,12 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li><a href="/">Home</a></li>
-        <li class="active"><a href="/product_search/">Products</a></li>
+        <li><a href="/product_search/">Products</a></li>
         <li><a href="#">Contact</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         {% if session['username'] %}
         <li class="nav-item" role="presentation"><a class="nav-link" href="/logout">Logout</a></li>
-        <li class="nav-item" role="presentation"><a class="nav-link" href="/update">Perfil</a></li>
         {% else %}
         <li class="nav-item" role="presentation"><a class="nav-link" href="/login">Sign In</a></li>
         <li class="nav-item" role="presentation" class="active"><a class="nav-link" href="/signup">Sign Up</a></li>
@@ -61,28 +60,29 @@
   </div>
 </nav>
 
-<div class="container jumbotron">    
-  <div class="col-sm-4"><img class="img-thumbnail" style="width:100%" alt="Image" id="imageUrl" src="https://placehold.it/150x80?text=IMAGE"></div>
-  <div class="col-sm-8">
-    <h2 id="name" class="text-capitalize">Nome</h2>
-    <div class="col-sm-1"></div>
-    <div class="row">
-      <div class="col-sm-6">
-        <h3 id="price">R$ 99,99</h4>
-        <h6 id="stock" class="text-success">Produto Disponivel</h6>
-        <button id="btnBuy" type="button" class="btn btn-success btn-lg">Comprar</button>
-      </div>
-    </div>
-    <br>
-    <h4 id="description">Descrição do produto.</h4>
-    <h5 id="additionalInfo">Informações adicionais: nada.</h5>
+<div class="container">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-10">
+  <h3>Carrinho</h3>
+  <table class="table table-condensed table-hover">
+    <thead>
+      <tr>
+        <th class="col-md-4"></th>
+        <th class="col-md-2">Nome</th>
+        <th class="col-md-2">Preço</th>
+        <th class="col-md-2"></th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+  <a href="/product_search/" class="btn btn-success pull-left">Continuar Comprando</a>
+  <a href="#" class="btn btn-success pull-right">Terminar Compra</a>
   </div>
+  <div class="col-sm-1"></div>
 </div>
-<br><br>
+ 
 
-<div id="simProducts" class="container hidden">
-  <h2>Produtos Semelhantes</h2>    
-  <div id="simRow" class="row"></div>
 </div>
 <br><br>
 

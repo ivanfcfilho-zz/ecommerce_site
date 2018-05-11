@@ -29,7 +29,7 @@ $(document).ready(function () {
     $.getJSON( "/ajax/product_search/"+params, function( data ) {
         var items = [];
         $.each( data, function(index, value) {
-            items.push('<tr><a href="/product/'+value["id"]+'"><td><img class="img-thumbnail" style="width:30%" alt="Image" id="imageUrl" src="'+value["imageUrl"]+'"></td><td class="text-capitalize">'+value["name"].toLowerCase()+'</td><td>R$ '+value["price"].toFixed(2)+'</td></a></tr>');
+            items.push('<tr><td><img class="img-thumbnail" style="width:30%" alt="Image" id="imageUrl" src="'+value["imageUrl"]+'"></td><td class="text-capitalize">'+value["name"].toLowerCase()+'</td><td>R$ '+value["price"].toFixed(2)+'</td><td><a href="/product/'+value["id"]+'">Ir Para Página</a></td></tr>');
         });
         if (items.length != 0) {
             $(items.join("")).appendTo("tbody");
@@ -78,7 +78,6 @@ $(document).ready(function () {
             var categoryId = null
             param = $("#categoryFilter").val()
             $.getJSON( "/ajax/category_search/?name="+param.toUpperCase(), function( dataCategory ) {
-                console.log( dataCategory )
                 if(dataCategory.length == 0) {
                     alert("Categoria invalida!")
                     return null

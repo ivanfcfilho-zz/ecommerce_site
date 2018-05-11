@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Ecommerce FUCK YEAH!</title>
+
+   
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/css/signup.css" rel="stylesheet">
+    <script src="../static/js/jquery-1.11.2.js"></script>
+    <script src="../static/js/jquery.validate.js"></script>
+    <script src="../static/js/signUp.js"></script>
+   
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="header">
+          <nav>
+              <ul class="nav justify-content-end">
+                  <li class="nav-item" role="presentation" >
+                    <a class="nav-link"class="nav-link" href="/">Home</a>
+                  </li>
+                  {% if session['username'] %}
+                  <li class="nav-item" role="presentation"><a class="nav-link" href="/logout">Logout<a></li>
+                  <li class="nav-item" role="presentation"><a class="nav-link" href="/update">Perfil</a></li>
+                  {% else %}
+                  <li class="nav-item" role="presentation">
+                    <a class="nav-link" href="/login">Sign In</a>
+                  </li>
+                  <li class="nav-item" role="presentation" class="active">
+                    <a class="nav-link" href="/signup">Sign Up</a>
+                  </li>
+                  {% endif %}
+              </ul>
+        </nav>
+        <h3 class="text-muted">E-Commerce Store</h3>
+      </div>
+
+      <div class="jumbotron text-center">
+        <h1>Dados do Usuário</h1>
+        <form class="form-signin">
+
+        <label for="inputName" class="sr-only">Nome</label>
+        <input type="name" name="name" id="inputName" class="form-control" placeholder="Nome" required autofocus>
+
+        <label for="inputEmail" class="sr-only">Email</label>
+        <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
+
+        <label for="inputCep" class="sr-only">CEP</label>
+        <input type="text" name="cep" id="inputCep" class="form-control" placeholder="CEP" required autofocus>
+
+        <label for="inputPhone1" class="sr-only">Telefone 1</label>
+        <input type="text" name="phone1" id="inputPhone1" class="form-control" placeholder="Telefone 1" required>
+
+        <label for="inputPhone2" class="sr-only">Telefone 2</label>
+        <input type="text" name="phone2" id="inputPhone2" class="form-control" placeholder="Telefone 2" required>
+
+        <label for="inputCpf" class="sr-only">CPF</label>
+        <input type="text" name="cpf" id="inputCpf" class="form-control" placeholder="CPF" required>
+        
+        <label for="inputBirthday" class="sr-only">Data de Nascimento</label>
+        <input type="date" name="birthday" id="inputBirthday" class="form-control" placeholder="Data de Nascimento" required>
+
+        <label for="inputPassword" class="sr-only">Senha</label>
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Senha" required>
+
+        <button id="btnSignUp" class="btn btn-lg btn-primary btn-block" type="button">Sign up</button>
+      </form>
+      </div>
+
+      <footer class="footer">
+        <p>&copy; Clientes_02 2018</p>
+      </footer>
+
+    </div>
+  </body>
+</html>
+

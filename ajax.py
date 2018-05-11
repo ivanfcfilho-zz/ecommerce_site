@@ -4,8 +4,8 @@ import json
 class Ajax():
     
     def __init__(self):
-        #self.url = 'http://127.0.0.1:5001'
-        self.url_client = 'https://gentle-waters-56547.herokuapp.com'
+        self.url_client = 'http://127.0.0.1:5000'
+        #self.url_client = 'https://gentle-waters-56547.herokuapp.com'
         self.url_product = 'https://ftt-catalog.herokuapp.com'
 
     def signUp(self, data):
@@ -23,7 +23,9 @@ class Ajax():
         if(r.status_code == 200):
             result = r.json()
             token = result['token']
-            r = s.get(url, params={'token':token})
+            if r.status_code == 200:
+                r = s.get(self.url_client+'/api/useraccess', params={'token':token})     
+                print('AQUI' + r.text)
             return r.text, r.status_code
         else:
             return r.text, r.status_code

@@ -1,5 +1,5 @@
 cartData = {};
-$.getJSON( "/ajax/product_search/", function( data ) {
+$.getJSON( "/ajax/get_cart/", function( data ) {
     cartData = data;
     var items = [];
     var totalValue = 0;

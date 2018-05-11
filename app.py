@@ -1,6 +1,7 @@
 from flask import Flask, render_template, json, request, session
 from ajax import Ajax
 from werkzeug import generate_password_hash, check_password_hash
+import json
 
 app = Flask(__name__)
 aj = Ajax()
@@ -93,13 +94,28 @@ def addToCart():
     if data is None:
         print("Erro. Nenhum produto enviado")
         return "400"
-    #
-    #add data para session
-    #
+    
+    #if session['username'] != None:
+    if session.get('cart') == None:
+        d = [data]
+        session['cart'] = d
+    else:
+        d = session['cart']
+        d.append(data)
+        session['cart'] = d
+    #else 
+    #    return 500
+
     return "200"
     
-@app.route('/get_cart', methods=['GET'])
+@app.route('/ajax/get_cart/', methods=['GET'])
 def getCart():
+    print('Vai tomar no cu')
+    #if session['username'] and session['cart']:
+    if  session['cart']:
+        return json.dumps(session['cart']), "200"
+    else:
+        return json.dumps('{}'), "200"
     #
     #get cart de session
     #return json
@@ -108,4 +124,4 @@ def getCart():
     
 if __name__ == "__main__":
     app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
-    app.run(port=5000)
+    app.run(port=5001)

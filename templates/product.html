@@ -52,6 +52,7 @@
         {% if session['username'] %}
         <li class="nav-item" role="presentation"><a class="nav-link" href="/logout">Logout</a></li>
         <li class="nav-item" role="presentation"><a class="nav-link" href="/update">Perfil</a></li>
+        <li class="nav-item" role="presentation"><a class="nav-link" href="/cart">Carrinho</a></li>
         {% else %}
         <li class="nav-item" role="presentation"><a class="nav-link" href="/login">Sign In</a></li>
         <li class="nav-item" role="presentation" class="active"><a class="nav-link" href="/signup">Sign Up</a></li>
@@ -71,6 +72,7 @@
         <h3 id="price">R$ 99,99</h4>
         <h6 id="stock" class="text-success">Produto Disponivel</h6>
         <button id="btnBuy" type="button" class="btn btn-success btn-lg">Comprar</button>
+
       </div>
     </div>
     <br>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, json, request, session
+from flask import Flask, render_template, json, request, session, redirect, url_for
 from ajax import Ajax
 from werkzeug import generate_password_hash, check_password_hash
 import json
@@ -49,7 +49,24 @@ def productPage(productId):
 @app.route('/product_search/')
 def productSearch():
     return render_template('product_search.html')
-    
+
+@app.route('/remove')
+def remove_cart():
+    args = request.args
+    id_p = args['id']
+    d = session['cart']
+    index = -1
+    for p in d:
+        index+=1
+        if p['id'] == id_p:
+            break
+
+    if index is not -1:
+        d = d[:index] + d[index+1:]
+        session['cart'] = d
+
+    return redirect(url_for('cart'))
+
 @app.route('/cart')
 def cart():
     return render_template('cart.html')
@@ -110,7 +127,6 @@ def addToCart():
     
 @app.route('/ajax/get_cart/', methods=['GET'])
 def getCart():
-    print('Vai tomar no cu')
     #if session['username'] and session['cart']:
     if  session['cart']:
         return json.dumps(session['cart']), "200"

@@ -1,6 +1,8 @@
 $(document).ready(function () {
     productId = window.location.pathname.replace('/product/','');
+    prodData = {}
     $.getJSON( "/ajax/product_details/"+productId, function( data ) {
+        prodData = data;
         $("#name").text(data["name"].toLowerCase());
         $("#price").text("R$ " + data["price"].toFixed(2));
         
@@ -9,7 +11,7 @@ $(document).ready(function () {
         } else { 
             $("#stock").text("Produto Indisponivel");
             $("#stock").attr("class", "text-danger")
-            $("#buyButton").attr("disabled", true)
+            $("#btnBuy").attr("disabled", true)
         }
         
         if (data["description"] != null) {
@@ -47,6 +49,25 @@ $(document).ready(function () {
                 var err = textStatus + ", " + error;
                 console.log( "Request Failed: " + err );
             });
+    });
+    
+    $('#btnBuy').click(function(){
+        json = JSON.stringify(prodData);
+        $.ajax({
+            url: '/add_to_cart',
+            data: json,
+            contentType: 'application/json',
+            type: 'POST',
+            success: function(data, textStatus, xhr){
+                    console.log(data, textStatus, xhr);
+            },
+            error: function(data, request, error){
+                //res = JSON.parse(data.responseText)
+                //alert('Error'+res.Message)
+                console.log(error);
+            }
+        });
+            
     });
 });
 

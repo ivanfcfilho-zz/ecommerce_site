@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>E-Commerce Store</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../static/js/jquery-1.11.2.js"></script>
+    <script src="../static/js/purchase.js"></script>
+    <style>
+    /* Remove the navbar's default rounded borders and increase the bottom margin */
+    .navbar {
+      margin-bottom: 50px;
+      border-radius: 0;
+    }
+
+    /* Remove the jumbotron's default bottom margin */
+     .jumbotron {
+      margin-bottom: 0;
+    }
+
+    /* Add a gray background color and some padding to the footer */
+    footer {
+      background-color: #f2f2f2;
+      padding: 25px;
+    }
+
+    </style>
+</head>
+<body>
+
+<div class="jumbotron">
+    <div class="container text-center">
+        <h1>E-Commerce</h1>
+        <p>Clientes 02
+        <p>
+    </div>
+</div>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+                <li><a href="/product_search/">Products</a></li>
+                <li><a href="#">Contact</a></li>
+                {% if session['username'] %}
+                <li><a href="/cart">Carrinho</a></li>
+                {% endif %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if session['username'] %}
+                <li class="nav-item" role="presentation"><a class="nav-link" href="/logout">Logout</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="/update">Perfil</a></li>
+                {% else %}
+                <li class="nav-item" role="presentation"><a class="nav-link" href="/login">Sign In</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="/signup">Sign Up</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="jumbotron text-center row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-6">
+        <h2>Pagamento</h2>
+        <form class="form-signin">
+            <div class ="row">
+                <div class="col-sm-8">
+                    <label for="inputName">Nome no Cartão</label>
+                    <input type="name" name="name" id="inputName" class="form-control" placeholder="Nome no Cartão" required autofocus>
+                </div>
+                <div class="col-sm-4">
+                    <label for="inputCpf">CPF</label>
+                    <input type="text" name="cpf" id="inputCpf" class="form-control" placeholder="XXXXXXXXXXX" required>
+                </div>
+            </div>
+
+            <div class ="row">
+                <div class="col-sm-4">
+                    <label for="inputNumer">Numero do Cartão</label>
+                    <input type="text" name="cardNumber" id="inputNumer" class="form-control" placeholder="XXXXXXXXXXXXXXXX" required>
+                </div>
+                <div class="col-sm-4">
+                    <label for="inputSecurityCode">Código de Segurança</label>
+                    <input type="text" name="cardSecurityCode" id="inputSecurityCode" class="form-control" placeholder="Security Number" required>
+                </div>
+                <div class="col-sm-2">
+                    <label for="inputMonth">Mês</label>
+                    <input type="text" name="month" id="inputMonth" class="form-control" placeholder="MM" required>
+                </div>
+                <div class="col-sm-2">
+                    <label for="inputYear">Ano</label>
+                    <input type="text" name="year" id="inputYear" class="form-control" placeholder="YYYY" required>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <label for="inputinstalments">Parcelas:</label>
+                    <select class="form-control" id="inputinstalments">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
+                        <option>9</option>
+                        <option>10</option>
+                        <option>11</option>
+                        <option>12</option>
+                    </select>
+                </div>
+                <div class="col-sm-6"></div>
+                <div class="col-sm-4">
+                    <br>
+                    <button id="btnPay" class="btn btn-lg btn-primary btn-block" type="button">Comprar</button>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+    <div class="col-sm-4">
+        <h3>Carrinho</h3>
+        <table class="table table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th class="col-md-8 text-center">Nome</th>
+                    <th class="col-md-4 text-center">Preço</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-sm-1"></div>
+</div>
+
+<footer class="footer">
+    <p>&copy; Clientes_02 2018</p>
+</footer>
+
+</body>
+</html>

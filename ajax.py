@@ -4,8 +4,7 @@ import json
 class Ajax():
     
     def __init__(self):
-        self.url_client = 'http://127.0.0.1:5000'
-        #self.url_client = 'https://gentle-waters-56547.herokuapp.com'
+        self.url_client = 'https://gentle-waters-56547.herokuapp.com'
         self.url_product = 'https://ftt-catalog.herokuapp.com'
 
     def signUp(self, data):

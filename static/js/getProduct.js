@@ -36,7 +36,7 @@ $(document).ready(function () {
                     return false;
                 }
                 if (productId != value["id"]) {
-                    total
+                    total += 1;
                     items.push('<a href="/product/'+value["id"]+'"><div class="col-sm-4"><div class="panel panel-success"><div class="panel-heading">'+value["name"]+'</div><div class="panel-body"><img src="'+value["imageUrl"]+'"class="img-responsive" style="width:60%" alt="Image"></div></div></div></a>');
                 }
             });

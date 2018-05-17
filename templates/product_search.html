@@ -47,6 +47,9 @@
         <li><a href="/">Home</a></li>
         <li class="active"><a href="#">Products</a></li>
         <li><a href="#">Contact</a></li>
+        {% if session['username'] %}
+        <li><a href="/cart">Carrinho</a></li>
+        {% endif %}
       </ul>
       <ul class="nav navbar-nav navbar-right">
         {% if session['username'] %}

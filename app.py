@@ -152,7 +152,7 @@ def payTicket():
     ret = aj.payTicket(request.form)
     return ret
 
-@app.route('/ajax/get_cep/<string:cep>)
+@app.route('/ajax/get_cep/<string:cep>')
 def ajaxGetCep(cep):
     ret = aj.getCep(cep)
     return ret

@@ -6,6 +6,7 @@ class Ajax():
     def __init__(self):
         self.url_client = 'https://gentle-waters-56547.herokuapp.com'
         self.url_product = 'https://ftt-catalog.herokuapp.com'
+        self.url_payment = 'https://payment-server-mc851.herokuapp.com/payments'
 
     def signUp(self, data):
         data = dict((key, data.getlist(key)[0]) for key in data.keys())
@@ -57,4 +58,18 @@ class Ajax():
             query = query[:-1]
         url = self.url_product+"/categories/"+query
         r = s.get(url)
+        return r.text, r.status_code
+
+    def payCredit(self, data):
+        data = dict((key, data.getlist(key)[0]) for key in data.keys())
+        s = requests.Session()
+        url = self.url_payment+"/creditCard"
+        r = s.post(url, json=data)
+        return r.text, r.status_code
+
+    def payTicket(self, data):
+        data = dict((key, data.getlist(key)[0]) for key in data.keys())
+        s = requests.Session()
+        url = self.url_payment+"/bankTicket"
+        r = s.post(url, json=data)
         return r.text, r.status_code

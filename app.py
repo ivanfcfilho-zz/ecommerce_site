@@ -141,7 +141,17 @@ def getCart():
 @app.route('/purchase')
 def purchase():
     return render_template('purchase.html')
-    
+
+@app.route('/ajax/pay_credit', methods=['POST'])
+def payCredit():
+    ret = aj.payCredit(request.form)
+    return ret
+
+@app.route('/ajax/pay_ticket', methods=['POST'])
+def payTicket():
+    ret = aj.payTicket(request.form)
+    return ret
+
 if __name__ == "__main__":
     app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
     app.run(port=5001)

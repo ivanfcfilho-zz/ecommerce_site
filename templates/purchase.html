@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>E-Commerce Store</title>
+    <title>Comprar</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="../static/js/jquery-1.11.2.js"></script>
+    <script src="../static/js/jquery.validate.js"></script>
     <script src="../static/js/purchase.js"></script>
     <style>
     /* Remove the navbar's default rounded borders and increase the bottom margin */
@@ -66,11 +67,18 @@
     <div class="col-sm-1"></div>
     <div class="col-sm-6">
         <h2>Pagamento</h2>
-        <form class="form-signin">
+        <div class ="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-3"><button id="btnCredit" class="btn btn-sm btn-primary btn-block" type="button">Catão</button></div>
+            <div class="col-sm-3"><button id="btnTicket" class="btn btn-sm btn-primary btn-block" type="button">Boleto</button></div>
+            <div class="col-sm-3"></div>
+        </div>
+        <br>
+        <form id="formCredit" class="form-signin">
             <div class ="row">
                 <div class="col-sm-8">
                     <label for="inputName">Nome no Cartão</label>
-                    <input type="name" name="name" id="inputName" class="form-control" placeholder="Nome no Cartão" required autofocus>
+                    <input type="name" name="clientCardName" id="inputName" class="form-control" placeholder="Nome no Cartão" required autofocus>
                 </div>
                 <div class="col-sm-4">
                     <label for="inputCpf">CPF</label>
@@ -85,7 +93,7 @@
                 </div>
                 <div class="col-sm-4">
                     <label for="inputSecurityCode">Código de Segurança</label>
-                    <input type="text" name="cardSecurityCode" id="inputSecurityCode" class="form-control" placeholder="Security Number" required>
+                    <input type="text" name="securityCode" id="inputSecurityCode" class="form-control" placeholder="Security Number" required>
                 </div>
                 <div class="col-sm-2">
                     <label for="inputMonth">Mês</label>
@@ -121,8 +129,39 @@
                     <button id="btnPay" class="btn btn-lg btn-primary btn-block" type="button">Comprar</button>
                 </div>
             </div>
+        </form>
 
+        <form id="formTicket" class="form-signin hidden">
+            <div class ="row">
+                <div class="col-sm-8">
+                    <label for="inputNameTicket">Nome</label>
+                    <input type="name" name="clientName" id="inputNameTicket" class="form-control" placeholder="Nome" required autofocus>
+                </div>
+                <div class="col-sm-4">
+                    <label for="inputCpfTicket">CPF</label>
+                    <input type="text" name="cpf" id="inputCpfTicket" class="form-control" placeholder="XXXXXXXXXXX" required>
+                </div>
+            </div>
 
+            <div class ="row">
+                <div class="col-sm-9">
+                    <label for="inputAddress">Endereço</label>
+                    <input type="text" name="address" id="inputAddress" class="form-control" placeholder="Endereço" required>
+                </div>
+                <div class="col-sm-3">
+                    <label for="inputCep">Cep</label>
+                    <input type="text" name="cep" id="inputCep" class="form-control" placeholder="XXXXXXXX" required>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-6"></div>
+                <div class="col-sm-4">
+                    <br>
+                    <button id="btnPayTicket" class="btn btn-lg btn-primary btn-block" type="button">Comprar</button>
+                </div>
+            </div>
         </form>
     </div>
     <div class="col-sm-4">

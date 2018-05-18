@@ -144,13 +144,17 @@
             </div>
 
             <div class ="row">
-                <div class="col-sm-9">
+                <div class="col-sm-7">
                     <label for="inputAddress">Endereço</label>
                     <input type="text" name="address" id="inputAddress" class="form-control" placeholder="Endereço" required>
                 </div>
                 <div class="col-sm-3">
                     <label for="inputCep">Cep</label>
                     <input type="text" name="cep" id="inputCep" class="form-control" placeholder="XXXXXXXX" required>
+                </div>
+                <div class="col-sm-2">
+                    <br>
+                    <button id="btnValidateCep" class="btn btn btn-primary btn-block" type="button">Validar</button>
                 </div>
 
             </div>
@@ -159,7 +163,7 @@
                 <div class="col-sm-6"></div>
                 <div class="col-sm-4">
                     <br>
-                    <button id="btnPayTicket" class="btn btn-lg btn-primary btn-block" type="button">Comprar</button>
+                    <button id="btnPayTicket" class="btn btn-lg btn-primary btn-block" type="button" disabled>Comprar</button>
                 </div>
             </div>
         </form>

@@ -65,6 +65,26 @@ $(function(){
         }
     });
 
+    $('#btnValidateCep').click(function(){
+        var cep_val = $('#inputCep').val();
+        $.ajax({
+            url: "/ajax/get_cep/"+cep_val,
+            type: 'GET',
+            success: function(data, textStatus, xhr){
+                if(xhr.status == 200) {
+                    res = JSON.parse(data)
+                    $("#inputAddress").val(res["logradouro"]+", "+res["bairro"]+", "+res["cidade"]+", "+res["uf"])
+                    $("#btnPayTicket").attr("disabled", false);
+                } else {
+                    alert('Error', xhr.status);
+                }
+            },
+            error: function(data, request, error, xhr){
+                alert("CEP inválido");
+            }
+        });
+    });
+
     $('#btnCredit').click(function(){
         $("#formCredit").removeClass('hidden');
         $("#formTicket").addClass('hidden');

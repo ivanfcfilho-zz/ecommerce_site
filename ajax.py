@@ -78,5 +78,6 @@ class Ajax():
     def getCep(self, cep):
         s = requests.Session()
         url = self.url_cep+"/paises/br/cep/"+cep
-        r = s.get(url)
+        headers = {'x-api-key': '06c2cbde-66b2-4ca7-8f51-ed552c6c1c31'}
+        r = s.get(url, headers=headers)
         return r.text, r.status_code

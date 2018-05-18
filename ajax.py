@@ -7,6 +7,7 @@ class Ajax():
         self.url_client = 'https://gentle-waters-56547.herokuapp.com'
         self.url_product = 'https://ftt-catalog.herokuapp.com'
         self.url_payment = 'https://payment-server-mc851.herokuapp.com/payments'
+        self.url_cep = 'http://node.thiagoelg.com'
 
     def signUp(self, data):
         data = dict((key, data.getlist(key)[0]) for key in data.keys())
@@ -72,4 +73,10 @@ class Ajax():
         s = requests.Session()
         url = self.url_payment+"/bankTicket"
         r = s.post(url, json=data)
+        return r.text, r.status_code
+
+    def getCep(self, cep):
+        s = requests.Session()
+        url = self.url_cep+"/paises/br/cep/"+cep
+        r = s.get(url)
         return r.text, r.status_code

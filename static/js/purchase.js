@@ -1,15 +1,93 @@
 $(function(){
-    cartData = {};
-    var totalValue = 0;
-    $.getJSON( "/ajax/get_cart/", function( data ) {
-        cartData = data;
-        var items = [];
-        $.each(data, function(index, value) {
-            items.push('<tr><td class="text-capitalize">'+value["name"].toLowerCase()+'</td><td>R$ '+value["price"].toFixed(2)+'</td></tr>');
-            totalValue += value["price"];
+
+    function registerDelivery(cartData){
+        if (!jQuery.isEmptyObject(cartData)) {
+            var form = "idProduto="
+            $.each(cartData, function(index, value) {
+                 form += value["id"]+","
+            });
+            form = form.slice(0, -1);
+            form += "&tipoEntrega=PAC&cepOrigem=13330000&peso=10&tipoPacote=Caixa&altura=10&largura=10&comprimento=10&cepDestino="
+            form += $('#inputCep').val();
+            $.ajax({
+                url: '/ajax/register_delivery',
+                data: form,
+                type: 'POST',
+                success: function(data, textStatus, xhr){
+                    if(xhr.status == 200) {
+                        console.log(data);
+                    } else {
+                        alert('Error', xhr.status);
+                    }
+                },
+                error: function(data, request, error){
+                    console.log(error);
+                }
+            });
+        }
+    }
+
+    function checkShipping(cep_val){
+        query = 'tipoEntrega=PAC&cepOrigem=13330-000&peso=1&tipoPacote=Caixa&comprimento=1&altura=1&largura=1&cepDestino='+cep_val;
+        $.ajax({
+            dataType: "json",
+            url: "/ajax/get_shipping/?"+query,
+            type: 'GET',
+            success: function(data, textStatus, xhr){
+                if(xhr.status == 200) {
+                    var preco = parseFloat(data["preco"]);
+                    $('<tr><td class="text-capitalize">Frete: </td><td>R$ '+preco.toFixed(2)+'</td></tr>').appendTo("tbody");
+                    totalValue += preco;
+                    $('<tr><td class="text-capitalize"><b>Preço Total (com frete): </b></td><td><b>R$ '+totalValue.toFixed(2)+'</b></td></tr>').appendTo("tbody");
+                } else {
+                    alert('Error', xhr.status);
+                }
+            },
+            error: function(data, request, error, xhr){
+                console.log(error);
+            }
         });
-        if (items.length != 0) { $(items.join("")).appendTo("tbody"); }
-        $('<tr><td class="text-capitalize"><b>Preço Total: </b></td><td><b>R$ '+totalValue.toFixed(2)+'</b></td></tr>').appendTo("tbody");
+    }
+
+    function validateCep(){
+        var cep_val = $('#inputCep').val();
+        $.ajax({
+            url: "/ajax/get_cep/"+cep_val,
+            type: 'GET',
+            success: function(data, textStatus, xhr){
+                if(xhr.status == 200) {
+                    res = JSON.parse(data)
+                    $("#inputAddress").val(res["logradouro"]+", "+res["bairro"]+", "+res["cidade"]+", "+res["uf"])
+                    $("#btnPayTicket").attr("disabled", false);
+                    $("#btnPay").attr("disabled", false);
+                    checkShipping(cep_val);
+                } else {
+                    alert('Error', xhr.status);
+                }
+            },
+            error: function(data, request, error, xhr){
+                var validator = $( "#formAddress" ).validate();
+                validator.showErrors({
+                  "cep": "CEP não existe"
+                });
+            }
+        });
+    }
+
+    var cartData = {};
+    var totalValue = 0;
+    var lastCep = 0;
+    $.getJSON( "/ajax/get_cart/", function( data ) {
+        if (!jQuery.isEmptyObject(data)) {
+            cartData = data;
+            var items = [];
+            $.each(data, function(index, value) {
+                items.push('<tr><td class="text-capitalize">'+value["name"].toLowerCase()+'</td><td>R$ '+value["price"].toFixed(2)+'</td></tr>');
+                totalValue += value["price"];
+            });
+            if (items.length != 0) { $(items.join("")).appendTo("tbody"); }
+            $('<tr><td class="text-capitalize"><b>Preço Total: </b></td><td><b>R$ '+totalValue.toFixed(2)+'</b></td></tr>').appendTo("tbody");
+        }
     })
         .fail(function( jqxhr, textStatus, error ) {
             var err = textStatus + ", " + error;
@@ -30,6 +108,7 @@ $(function(){
                         res = JSON.parse(data)
                         alert(res["result"])
                         console.log(data);
+                        registerDelivery(cartData);
                     } else {
                         alert('Error', xhr.status);
                     }
@@ -44,6 +123,7 @@ $(function(){
     $('#btnPayTicket').click(function(){
         if( $('#formTicket').valid()) {
             data = $('#formTicket').serialize();
+            data += "&" + $('#formAddress').serialize();
             data += "&value="+totalValue;
             $.ajax({
                 url: '/ajax/pay_ticket',
@@ -54,6 +134,7 @@ $(function(){
                         res = JSON.parse(data)
                         alert("AUTHORIZED")
                         console.log(data);
+                        registerDelivery(cartData);
                     } else {
                         alert('Error', xhr.status);
                     }
@@ -65,26 +146,6 @@ $(function(){
         }
     });
 
-    $('#btnValidateCep').click(function(){
-        var cep_val = $('#inputCep').val();
-        $.ajax({
-            url: "/ajax/get_cep/"+cep_val,
-            type: 'GET',
-            success: function(data, textStatus, xhr){
-                if(xhr.status == 200) {
-                    res = JSON.parse(data)
-                    $("#inputAddress").val(res["logradouro"]+", "+res["bairro"]+", "+res["cidade"]+", "+res["uf"])
-                    $("#btnPayTicket").attr("disabled", false);
-                } else {
-                    alert('Error', xhr.status);
-                }
-            },
-            error: function(data, request, error, xhr){
-                alert("CEP inválido");
-            }
-        });
-    });
-
     $('#btnCredit').click(function(){
         $("#formCredit").removeClass('hidden');
         $("#formTicket").addClass('hidden');
@@ -94,6 +155,27 @@ $(function(){
         $("#formCredit").addClass('hidden');
         $("#formTicket").removeClass('hidden');
     });
+
+    $('#inputCep')
+        .keypress(function (e) {
+            if ($('#inputCep').val() != lastCep) {
+                $("#btnPayTicket").attr("disabled", true);
+                $("#btnPay").attr("disabled", true);
+                lastCep=$('#inputCep').val();
+                if (e.which == 13) {
+                    validateCep();
+                    return false;
+                }
+            }
+        })
+        .focusout(function(){
+            if ($('#inputCep').val() != lastCep) {
+                $("#btnPayTicket").attr("disabled", true);
+                $("#btnPay").attr("disabled", true);
+                validateCep();
+                lastCep=$('#inputCep').val();
+            }
+        });
 
     $("#formCredit").validate({
         rules: {
@@ -175,13 +257,6 @@ $(function(){
                 digits: true,
                 minlength: 11,
                 maxlength: 11
-            },
-            address: "required",
-            cep: {
-                required: true,
-                digits: true,
-                minlength: 8,
-                maxlength: 8
             }
         },
         messages: {
@@ -192,8 +267,20 @@ $(function(){
                 digits: "CPF inválido",
                 minlength: "CPF inválido",
                 maxlength: "CPF inválido"
-            },
-            address: "Por favor, digite um endereço",
+            }
+        }
+    });
+
+    $("#formAddress").validate({
+        rules: {
+            cep: {
+                required: true,
+                digits: true,
+                minlength: 8,
+                maxlength: 8
+            }
+        },
+        messages: {
             cep: {
                 required: "CEP inválido",
                 digits: "CEP inválido",

@@ -128,15 +128,9 @@ def addToCart():
 @app.route('/ajax/get_cart/', methods=['GET'])
 def getCart():
     #if session['username'] and session['cart']:
-    if  session['cart']:
+    if session.get('cart'):
         return json.dumps(session['cart']), "200"
-    else:
-        return json.dumps('{}'), "200"
-    #
-    #get cart de session
-    #return json
-    #
-    return "200"
+    return json.dumps({}), "200"
 
 @app.route('/purchase')
 def purchase():
@@ -155,6 +149,30 @@ def payTicket():
 @app.route('/ajax/get_cep/<string:cep>')
 def ajaxGetCep(cep):
     ret = aj.getCep(cep)
+    return ret
+
+@app.route('/ajax/get_shipping/', methods=['GET'])
+def ajaxGetShipping():
+    dic = {}
+    if(request.args.get('tipoEntrega')): dic["tipoEntrega"] = request.args.get('tipoEntrega')
+    if(request.args.get('cepOrigem')): dic["cepOrigem"] = request.args.get('cepOrigem')
+    if(request.args.get('cepDestino')): dic["cepDestino"] = request.args.get('cepDestino')
+    if(request.args.get('peso')): dic["peso"] = request.args.get('peso')
+    if(request.args.get('tipoPacote')): dic["tipoPacote"] = request.args.get('tipoPacote')
+    if(request.args.get('comprimento')): dic["comprimento"] = request.args.get('comprimento')
+    if(request.args.get('altura')): dic["altura"] = request.args.get('altura')
+    if(request.args.get('largura')): dic["largura"] = request.args.get('largura')
+    ret = aj.getShipping(dic)
+    return ret
+
+@app.route('/ajax/register_delivery', methods=['POST'])
+def ajaxRegisterDelivery():
+    ret = aj.registerDelivery(request.form)
+    return ret
+
+@app.route('/ajax/check_delivery/<string:cod_rastreio>')
+def ajaxCheckDelivery(cod_rastreio):
+    ret = aj.checkDelivery(cod_rastreio)
     return ret
 
 if __name__ == "__main__":

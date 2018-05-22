@@ -28,6 +28,11 @@
       padding: 25px;
     }
 
+    .nopadding {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
     </style>
 </head>
 <body>
@@ -63,123 +68,121 @@
     </div>
 </nav>
 
-<div class="jumbotron text-center row">
+<div class="row">
     <div class="col-sm-1"></div>
-    <div class="col-sm-6">
-        <h2>Pagamento</h2>
-        <div class ="row">
-            <div class="col-sm-3"></div>
-            <div class="col-sm-3"><button id="btnCredit" class="btn btn-sm btn-primary btn-block" type="button">Catão</button></div>
-            <div class="col-sm-3"><button id="btnTicket" class="btn btn-sm btn-primary btn-block" type="button">Boleto</button></div>
-            <div class="col-sm-3"></div>
+    <div class="jumbotron text-center col-sm-10">
+        <div class="col-sm-7 nopadding">
+            <h2>Pagamento</h2>
+            <div class ="row">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-3"><button id="btnCredit" class="btn btn-sm btn-primary btn-block" type="button">Catão</button></div>
+                <div class="col-sm-3"><button id="btnTicket" class="btn btn-sm btn-primary btn-block" type="button">Boleto</button></div>
+                <div class="col-sm-3"></div>
+            </div>
+            <br>
+            <div class ="row nopadding">
+                <form id="formAddress">
+                    <div class="col-sm-10 nopadding">
+                        <label for="inputAddress">Endereço</label>
+                        <input type="text" name="address" id="inputAddress" class="form-control" placeholder="Endereço" required>
+                    </div>
+                    <div class="col-sm-2 nopadding">
+                        <label for="inputCep">Cep</label>
+                        <input type="text" name="cep" id="inputCep" class="form-control" placeholder="XXXXXXXX" required>
+                    </div>
+                </form>
+            </div>
+            <form id="formCredit">
+                <div class ="row">
+                    <div class="col-sm-8">
+                        <label for="inputName">Nome no Cartão</label>
+                        <input type="name" name="clientCardName" id="inputName" class="form-control" placeholder="Nome no Cartão" required autofocus>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="inputCpf">CPF</label>
+                        <input type="text" name="cpf" id="inputCpf" class="form-control" placeholder="XXXXXXXXXXX" required>
+                    </div>
+                </div>
+
+                <div class ="row">
+                    <div class="col-sm-4">
+                        <label for="inputNumer">Numero do Cartão</label>
+                        <input type="text" name="cardNumber" id="inputNumer" class="form-control" placeholder="XXXXXXXXXXXXXXXX" required>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="inputSecurityCode">Código de Segurança</label>
+                        <input type="text" name="securityCode" id="inputSecurityCode" class="form-control" placeholder="Security Number" required>
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="inputMonth">Mês</label>
+                        <input type="text" name="month" id="inputMonth" class="form-control" placeholder="MM" required>
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="inputYear">Ano</label>
+                        <input type="text" name="year" id="inputYear" class="form-control" placeholder="YYYY" required>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label for="inputinstalments">Parcelas:</label>
+                        <select class="form-control" id="inputinstalments">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                            <option>9</option>
+                            <option>10</option>
+                            <option>11</option>
+                            <option>12</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6"></div>
+                    <div class="col-sm-4">
+                        <br>
+                        <button id="btnPay" class="btn btn-lg btn-primary btn-block" type="button" disabled>Comprar</button>
+                    </div>
+                </div>
+            </form>
+
+            <form id="formTicket" class="hidden">
+                <div class ="row">
+                    <div class="col-sm-8">
+                        <label for="inputNameTicket">Nome</label>
+                        <input type="name" name="clientName" id="inputNameTicket" class="form-control" placeholder="Nome" required autofocus>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="inputCpfTicket">CPF</label>
+                        <input type="text" name="cpf" id="inputCpfTicket" class="form-control" placeholder="XXXXXXXXXXX" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-6"></div>
+                    <div class="col-sm-4">
+                        <br>
+                        <button id="btnPayTicket" class="btn btn-lg btn-primary btn-block" type="button" disabled>Comprar</button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <br>
-        <form id="formCredit" class="form-signin">
-            <div class ="row">
-                <div class="col-sm-8">
-                    <label for="inputName">Nome no Cartão</label>
-                    <input type="name" name="clientCardName" id="inputName" class="form-control" placeholder="Nome no Cartão" required autofocus>
-                </div>
-                <div class="col-sm-4">
-                    <label for="inputCpf">CPF</label>
-                    <input type="text" name="cpf" id="inputCpf" class="form-control" placeholder="XXXXXXXXXXX" required>
-                </div>
-            </div>
-
-            <div class ="row">
-                <div class="col-sm-4">
-                    <label for="inputNumer">Numero do Cartão</label>
-                    <input type="text" name="cardNumber" id="inputNumer" class="form-control" placeholder="XXXXXXXXXXXXXXXX" required>
-                </div>
-                <div class="col-sm-4">
-                    <label for="inputSecurityCode">Código de Segurança</label>
-                    <input type="text" name="securityCode" id="inputSecurityCode" class="form-control" placeholder="Security Number" required>
-                </div>
-                <div class="col-sm-2">
-                    <label for="inputMonth">Mês</label>
-                    <input type="text" name="month" id="inputMonth" class="form-control" placeholder="MM" required>
-                </div>
-                <div class="col-sm-2">
-                    <label for="inputYear">Ano</label>
-                    <input type="text" name="year" id="inputYear" class="form-control" placeholder="YYYY" required>
-                </div>
-
-            </div>
-            <div class="row">
-                <div class="col-sm-2">
-                    <label for="inputinstalments">Parcelas:</label>
-                    <select class="form-control" id="inputinstalments">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>6</option>
-                        <option>7</option>
-                        <option>8</option>
-                        <option>9</option>
-                        <option>10</option>
-                        <option>11</option>
-                        <option>12</option>
-                    </select>
-                </div>
-                <div class="col-sm-6"></div>
-                <div class="col-sm-4">
-                    <br>
-                    <button id="btnPay" class="btn btn-lg btn-primary btn-block" type="button">Comprar</button>
-                </div>
-            </div>
-        </form>
-
-        <form id="formTicket" class="form-signin hidden">
-            <div class ="row">
-                <div class="col-sm-8">
-                    <label for="inputNameTicket">Nome</label>
-                    <input type="name" name="clientName" id="inputNameTicket" class="form-control" placeholder="Nome" required autofocus>
-                </div>
-                <div class="col-sm-4">
-                    <label for="inputCpfTicket">CPF</label>
-                    <input type="text" name="cpf" id="inputCpfTicket" class="form-control" placeholder="XXXXXXXXXXX" required>
-                </div>
-            </div>
-
-            <div class ="row">
-                <div class="col-sm-7">
-                    <label for="inputAddress">Endereço</label>
-                    <input type="text" name="address" id="inputAddress" class="form-control" placeholder="Endereço" required>
-                </div>
-                <div class="col-sm-3">
-                    <label for="inputCep">Cep</label>
-                    <input type="text" name="cep" id="inputCep" class="form-control" placeholder="XXXXXXXX" required>
-                </div>
-                <div class="col-sm-2">
-                    <br>
-                    <button id="btnValidateCep" class="btn btn btn-primary btn-block" type="button">Validar</button>
-                </div>
-
-            </div>
-            <div class="row">
-                <div class="col-sm-2"></div>
-                <div class="col-sm-6"></div>
-                <div class="col-sm-4">
-                    <br>
-                    <button id="btnPayTicket" class="btn btn-lg btn-primary btn-block" type="button" disabled>Comprar</button>
-                </div>
-            </div>
-        </form>
-    </div>
-    <div class="col-sm-4">
-        <h3>Carrinho</h3>
-        <table class="table table-condensed table-hover">
-            <thead>
-                <tr>
-                    <th class="col-md-8 text-center">Nome</th>
-                    <th class="col-md-4 text-center">Preço</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+        <div class="col-sm-5">
+            <h3>Carrinho</h3>
+            <table class="table table-condensed table-hover">
+                <thead>
+                    <tr>
+                        <th class="col-md-8 text-center">Nome</th>
+                        <th class="col-md-4 text-center">Preço</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="col-sm-1"></div>
 </div>

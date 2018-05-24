@@ -19,6 +19,13 @@ class Ajax():
         r = s.post(url, json=data)
         return r.text, r.status_code
 
+    def update(self, data):
+        data = dict((key, data.getlist(key)[0]) for key in data.keys())
+        s = requests.Session()
+        url = self.url_client+"/api/client"
+        r = s.put(url, json=data)
+        return r.text, r.status_code
+
     def login(self, data):
         data = dict((key, data.getlist(key)[0]) for key in data.keys())
         s = requests.Session()
@@ -33,6 +40,12 @@ class Ajax():
             return r.text, r.status_code
         else:
             return r.text, r.status_code
+
+    def getUser(self, email):
+        s = requests.Session()
+        url = self.url_client + "/api/client?email=" + email
+        r = s.get(url)
+        return r.text, r.status_code
         
     def getProduct(self, productId):
         s = requests.Session()

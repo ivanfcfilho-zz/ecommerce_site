@@ -18,6 +18,14 @@ def showLogin():
 def update():
     return render_template('update.html')
 
+@app.route('/orders')
+def orders():
+    return render_template('orders.html')
+
+@app.route('/payments')
+def payments():
+    return render_template('payments.html')
+
 @app.route('/signup')
 def showSignUp():
     return render_template('signup.html')
@@ -30,18 +38,32 @@ def ajaxSignup():
 def ajaxLogin():
     r = aj.login(request.form)
     if(r[1] == 200):
-        session['username'] = 'user'
+        session['username'] = request.form["email"]
         session.modified = True
     else:
         print('Erro')
     return r
+
+@app.route('/ajax/get_email', methods=['GET'])
+def ajaxGetEmail():
+    if session.get('username'):
+        return json.dumps(session['username']), "200"
+    return "500"
+
+@app.route('/ajax/get_user/<string:email>', methods=['GET'])
+def ajaxGetUser(email):
+    return aj.getUser(email)
+
+@app.route('/ajax/update', methods=['POST'])
+def ajaxUpdate():
+    return aj.update(request.form)
 
 @app.route('/logout', methods=['GET'])
 def logout():
     session.pop('username', None)
     session.modified = True
     return render_template('index.html')
-    
+
 @app.route('/product/<string:productId>')
 def productPage(productId):
     return render_template('product.html')

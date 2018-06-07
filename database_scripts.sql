@@ -2,7 +2,7 @@ Scripts to create database for ecommerce website:
 
 CREATE TABLE pedidos (
     order_id SERIAL PRIMARY KEY,
-    client_id int, 
+    client_email int,
     cod_rastreio_logistica varchar(256),
     id_pagamento varchar(256),
     cep_de_entrega varchar(256)
@@ -16,6 +16,6 @@ CREATE TABLE itens_do_pedido (
 );
 
 
-INSERT INTO public.pedidos (client_id, cod_rastreio_logistica, id_pagamento, cep_de_entrega) VALUES (10, value2 , value3, ...);
+INSERT INTO public.pedidos (client_email, cod_rastreio_logistica, id_pagamento, cep_de_entrega) VALUES (10, value2 , value3, ...);
 
 INSERT INTO itens_do_pedido (order_id, item_id, quantidade) VALUES ();

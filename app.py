@@ -1,10 +1,17 @@
 from flask import Flask, render_template, json, request, session, redirect, url_for
 from ajax import Ajax
-from werkzeug import generate_password_hash, check_password_hash
+from sqlalchemy import create_engine
+from sqlalchemy import exc
 import json
+
 
 app = Flask(__name__)
 aj = Ajax()
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///static/db/orders.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+
+db_connect = create_engine('sqlite:///data/db/orders.db')
 
 @app.route('/')
 def main():
@@ -196,6 +203,20 @@ def ajaxRegisterDelivery():
 def ajaxCheckDelivery(cod_rastreio):
     ret = aj.checkDelivery(cod_rastreio)
     return ret
+
+@app.route('/ajax/save_order', methods=['POST'])
+def saveOder():
+    cart = json.dumps(session['cart'])
+    try:
+        conn = db_connect.connect()
+        conn.execute("INSERT INTO public.pedidos (client_id, cod_rastreio_logistica, id_pagamento, cep_de_entrega)"
+                             " VALUES (10, value2 , value3, ...);")
+        #getOrderId()  ^^^
+        for item in cart:
+            conn.execute("INSERT INTO itens_do_pedido (order_id, item_id, quantidade) VALUES ();")
+    except:
+        return "Error"
+
 
 if __name__ == "__main__":
     app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'

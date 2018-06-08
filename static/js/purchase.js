@@ -74,6 +74,25 @@ $(function(){
         });
     }
 
+    function getStatusCredit(cpf) {
+        $.ajax({
+            url: "/ajax/getStatusCredit/"+cpf,
+            type: 'GET',
+            success: function(data, textStatus, xhr){
+
+            },
+            error: function(data, request, error, xhr){
+                console.log('********************')
+                console.log('SUCCESS')
+                console.log('data: ' + data)
+                console.log('request: ' + request)
+                console.log('error: ' + error)
+                console.log('xhr: ' + xhr)
+            }
+        });
+        
+    }
+
     var cartData = {};
     var totalValue = 0;
     var lastCep = 0;
@@ -95,28 +114,33 @@ $(function(){
         });
 
     $('#btnPay').click(function(){
-        if( $('#formCredit').valid()) {
-            data = $('#formCredit').serialize();
-            data += "&instalments="+$("#inputinstalments option:selected").text();
-            data += "&value="+totalValue;
-            $.ajax({
-                url: '/ajax/pay_credit',
-                data: data,
-                type: 'POST',
-                success: function(data, textStatus, xhr){
-                    if(xhr.status == 200) {
-                        res = JSON.parse(data)
-                        alert(res["result"])
-                        console.log(data);
-                        registerDelivery(cartData);
-                    } else {
-                        alert('Error', xhr.status);
+        score = getStatusCredit($('#inputCpf').val())
+        if(score < 200) {
+            alert('Mau pagador Salafrario');
+        } else {
+            if( $('#formCredit').valid()) {
+                data = $('#formCredit').serialize();
+                data += "&instalments="+$("#inputinstalments option:selected").text();
+                data += "&value="+totalValue;
+                $.ajax({
+                    url: '/ajax/pay_credit',
+                    data: data,
+                    type: 'POST',
+                    success: function(data, textStatus, xhr){
+                        if(xhr.status == 200) {
+                            res = JSON.parse(data)
+                            alert(res["result"])
+                            console.log(data);
+                            registerDelivery(cartData);
+                        } else {
+                            alert('Error', xhr.status);
+                        }
+                    },
+                    error: function(data, request, error){
+                        console.log(error);
                     }
-                },
-                error: function(data, request, error){
-                    console.log(error);
-                }
-            });
+                });
+            }
         }
     });
 

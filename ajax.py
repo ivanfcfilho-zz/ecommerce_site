@@ -11,6 +11,8 @@ class Ajax():
         self.url_logistica = 'https://hidden-basin-50728.herokuapp.com'
         self.key_cep = {'x-api-key': '06c2cbde-66b2-4ca7-8f51-ed552c6c1c31'}
         self.key_logistica = 'd52bede3-88f0-568f-a71b-4f2a9ea6323a'
+        self.url_credit_validation = 'https://glacial-brook-98386.herokuapp.com/score/'
+        self.key_credit_validation = 'tmvcgp2'
 
     def signUp(self, data):
         data = dict((key, data.getlist(key)[0]) for key in data.keys())
@@ -36,9 +38,9 @@ class Ajax():
             token = result['token']
             if r.status_code == 200:
                 r = s.get(self.url_client+'/api/useraccess', params={'token':token})     
-                print('AQUI' + r.text)
             return r.text, r.status_code
         else:
+            print(r.status_code)
             return r.text, r.status_code
 
     def getUser(self, email):
@@ -80,8 +82,14 @@ class Ajax():
     def payCredit(self, data):
         data = dict((key, data.getlist(key)[0]) for key in data.keys())
         s = requests.Session()
+
+        d = {"number":data['cardNumber'], 'hasCredit':True}
+        url = 'https://payment-server-mc851.herokuapp.com/creditCard'
+        r = s.post(url, json=d)
+
         url = self.url_payment+"/creditCard"
         r = s.post(url, json=data)
+        print(r.text)
         return r.text, r.status_code
 
     def payTicket(self, data):
@@ -122,3 +130,16 @@ class Ajax():
         url = self.url_logistica+"/rastrearentrega/"+cod_rastreio
         r = s.get(url, params={"apiKey":self.key_logistica})
         return r.text, r.status_code
+
+    def getStatusCredit(self, cpf):
+        s = requests.Session()
+        header = {'x-api-key': 'tmvcgp2'}
+        r = s.get('https://glacial-brook-98386.herokuapp.com/score/'+cpf, headers=header)
+        if r.status_code == 400 and 'Invalid' in r.text:
+            data = {"score": 400,
+                    "document":cpf}
+            r = s.post('https://glacial-brook-98386.herokuapp.com/score/'+cpf, headers=header, json=data)
+            print(r.text)
+            return r.text, r.status_code
+        else:
+            return r.text, r.status_code

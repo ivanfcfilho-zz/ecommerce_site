@@ -137,23 +137,6 @@ $(function(){
         });
 
     $('#btnPay').click(function(){
-<<<<<<< HEAD
-        if( $('#formCredit').valid()) {
-            data = $('#formCredit').serialize();
-            data += "&instalments="+$("#inputinstalments option:selected").text();
-            data += "&value="+totalValue;
-            $.ajax({
-                url: '/ajax/pay_credit',
-                data: data,
-                type: 'POST',
-                success: function(data, textStatus, xhr){
-                    if(xhr.status == 200) {
-                        res = JSON.parse(data)
-                        console.log(data);
-                        registerDelivery(cartData, null);
-                    } else {
-                        alert('Error', xhr.status);
-=======
         score = getStatusCredit($('#inputCpf').val())
         if(score < 200) {
             alert('Mau pagador Salafrario');
@@ -178,7 +161,6 @@ $(function(){
                     },
                     error: function(data, request, error){
                         console.log(error);
->>>>>>> 8770fd110b2f4830c5fcff0601093e73a80438c0
                     }
                 });
             }

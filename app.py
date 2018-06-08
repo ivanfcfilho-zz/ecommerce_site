@@ -249,11 +249,40 @@ def saveOder():
 
 @app.route('/ajax/get_orders', methods=['GET'])
 def getOrder():
-    #client_email = session['username']
-    # Get pedidos where client_email
-    # Get itens_do_pedido where order_id
-    # Exemplo de saida
-    json_out = {"orders":[
+    client_email = session['username']
+
+    conn = db_connect.connect()
+    print("\n***********\n")
+
+    result = conn.execute("SELECT * FROM pedidos WHERE client_email='{}'".format(client_email))#"SELECT * FROM pedidos AS p INNER JOIN itens_do_pedido AS i ON p.order_id = i.order_id where p.client_email='{}' order by p.order_id;".format(client_email))
+    orders = result.fetchall()
+
+    response = {}
+
+    orderlist = []
+    for order in orders:
+        o = {}
+        o['order_id'] = order[0]
+        o['client_email'] = order[1]
+        o['cod_rastreio_logistica'] = order[2]
+        o['id_pagamento'] = order[3]
+        o['cep'] = order[4]
+        o['itens_do_pedido'] = []
+
+        result = conn.execute("SELECT * FROM itens_do_pedido WHERE order_id='{}'".format(order[0]))
+        itens = result.fetchall()
+        for item in itens:
+            i = {}
+            i['order_id'] = item[0]
+            i['item_id'] = item[1]
+            i['quantidade'] = item[3]
+            i['preco'] = item[2]
+            o['itens_do_pedido'].append(i)
+        orderlist.append(o)
+
+    response['orders'] = orderlist
+
+    """json_out = {"orders":[
                     {
                     "order_id": "1",
                     "client_email": "1",
@@ -282,8 +311,8 @@ def getOrder():
                                           "quantidade": "1"}
                                          ]
                      }
-                 ]}
-    return json.dumps(json_out)
+                 ]}"""
+    return json.dumps(response)
 
 @app.route('/ajax/check_tickets/<string:id>')
 def ajaxCheckTickets(id):

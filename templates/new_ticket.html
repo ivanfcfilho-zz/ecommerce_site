@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>E-Commerce Perfil</title>
+  <title>E-Commerce Pedidos</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -10,7 +10,7 @@
   <link href="../static/css/signup.css" rel="stylesheet">
   <script src="../static/js/jquery-1.11.2.js"></script>
   <script src="../static/js/jquery.validate.js"></script>
-  <script src="../static/js/update.js"></script>
+  <script src="../static/js/new_ticket.js"></script>
   <style>
     /* Remove the navbar's default rounded borders and increase the bottom margin */
     .navbar {
@@ -66,38 +66,22 @@
   <div class=" col-sm-2 navbar navbar-inverse sidebar">
     <br>
     <ul class="nav navbar-nav nav-sidebar">
-      <li class="nav-item active" role="presentation"><a class="nav-link" href="/update">Dados Pessoais</a></li>
+      <li class="nav-item " role="presentation"><a class="nav-link" href="/update">Dados Pessoais</a></li>
       <li class="nav-item" role="presentation"><a class="nav-link" href="/orders">Ver Pedidos</a></li>
-      <li class="nav-item" role="presentation"><a class="nav-link" href="/sac">Mensagens</a></li>
+      <li class="nav-item active" role="presentation"><a class="nav-link" href="/sac">Mensagens</a></li>
       <li class="nav-item" role="presentation"><a class="nav-link" href="#">Alterar Email</a></li>
       <li class="nav-item" role="presentation"><a class="nav-link" href="#">Alterar Senha</a></li>
     </ul>
     <br>
     </div>
   <div class="jumbotron text-center col-sm-8">
-    <h3>Dados Pessoais</h3>
-    <form class="form-signin">
-      <label for="inputName">Nome</label>
-      <input type="name" name="name" id="inputName" class="form-control" placeholder="Nome" disabled>
-      <label for="inputCep">CEP</label>
-      <input type="text" name="cep" id="inputCep" class="form-control" placeholder="CEP" disabled>
-      <label for="inputPhone1">Telefone 1</label>
-      <input type="text" name="phone1" id="inputPhone1" class="form-control" placeholder="Telefone 1" disabled>
-      <label for="inputPhone2">Telefone 2</label>
-      <input type="text" name="phone2" id="inputPhone2" class="form-control" placeholder="Telefone 2" disabled>
-      <label for="inputCpf">CPF</label>
-      <input type="text" name="cpf" id="inputCpf" class="form-control" placeholder="CPF" disabled>
-      <label for="inputBirthday">Data de Nascimento</label>
-      <input type="date" name="birthday" id="inputBirthday" class="form-control" placeholder="Data de Nascimento" disabled>
-      <br>
-      <div id="notEdit">
-        <button id="btnEdit" class="btn btn btn-primary btn-block" type="button" disabled>Editar</button>
-      </div>
-      <div id="edit" class="hidden">
-        <button id="btnCancel" class="btn btn btn-primary btn-block" type="button">Cancelar</button>
-        <button id="btnUpdate" class="btn btn btn-primary btn-block" type="button">Atualizar</button>
-      </div>
-    </form>
+    <h2 id="ticketTitle">Ticket</h2>
+    <div class="col-md-1 text-center"></div>
+    <div class="col-md-10 text-center">
+        <textarea id="formMessage" class="form-control" rows="3" id="message" required></textarea>
+        <button id="btnSendTicket" type="button" class="btn btn-success pull-right">Enviar</button>
+    </div>
+    <div class="col-md-1 text-center"></div>
   </div>
   <div class="col-sm-1"></div>
 </div>

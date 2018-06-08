@@ -195,9 +195,7 @@ def ajaxGetShipping():
     dic = {}
     if(request.args.get('tipoEntrega')): dic["tipoEntrega"] = request.args.get('tipoEntrega')
     if(request.args.get('cepOrigem')): dic["cepOrigem"] = request.args.get('cepOrigem')
-    if(request.args.get('cepDestino')):
-        dic["cepDestino"] = request.args.get('cepDestino')
-        session['cep'] = request.args.get('cepDestino')
+    if(request.args.get('cepDestino')): dic["cepDestino"] = request.args.get('cepDestino')
     if(request.args.get('peso')): dic["peso"] = request.args.get('peso')
     if(request.args.get('tipoPacote')): dic["tipoPacote"] = request.args.get('tipoPacote')
     if(request.args.get('comprimento')): dic["comprimento"] = request.args.get('comprimento')
@@ -209,7 +207,6 @@ def ajaxGetShipping():
 @app.route('/ajax/register_delivery', methods=['POST'])
 def ajaxRegisterDelivery():
     ret = aj.registerDelivery(request.form)
-    session['codRastreio'] = json.dumps(ret).get('codigoRastreio') #ret.json().get('codigoRastreio')
     return ret
 
 @app.route('/ajax/check_delivery/<string:cod_rastreio>')
@@ -220,17 +217,25 @@ def ajaxCheckDelivery(cod_rastreio):
 @app.route('/ajax/save_order', methods=['POST'])
 def saveOder():
     cart = json.dumps(session['cart'])
-    cep = json.dumps(session['cep'])
-    codigoRastreio = json.dumps(session['codRastreio'])
     email = json.dumps(session['username'])
+
+    cod_rastreio = request.args.get('cod_rastreio_logistica')
+    id_pagamento = request.args.get('id_pagamento')
+    cep_de_entrega = request.args.get('cep_de_entrega')
 
     try:
         conn = db_connect.connect()
-        conn.execute("INSERT INTO public.pedidos (client_email, cod_rastreio_logistica, id_pagamento, cep_de_entrega)"
-                             " VALUES ({}, {}, {}, {});".format(email, codigoRastreio, idPagamento, cep))
-        #getOrderId()  ^^^
+        conn.execute("INSERT INTO pedidos (client_email, cod_rastreio_logistica, id_pagamento, cep_de_entrega)"
+                             " VALUES ({}, {}, {}, {});".format(email, cod_rastreio, id_pagamento, cep_de_entrega))
+
+        order_id = conn.lastrowid
+        conn.commit()
+
         for item in cart:
-            conn.execute("INSERT INTO itens_do_pedido (order_id, item_id, quantidade) VALUES ();")
+            preco = item.get('price')
+            item_id = item.get('id')
+            conn.execute("INSERT INTO itens_do_pedido (order_id, item_id, preco, quantidade) (VALUES {} {} {} {});".format(order_id, item_id, preco, 1))
+            conn.commit()
     except:
         return "Error"
 

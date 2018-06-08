@@ -1,5 +1,6 @@
 from flask import Flask, render_template, json, request, session, redirect, url_for
 from ajax import Ajax
+import json
 from sqlalchemy import create_engine
 from sqlalchemy import exc
 import json
@@ -11,7 +12,7 @@ aj = Ajax()
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///static/db/orders.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
-db_connect = create_engine('sqlite:///data/db/orders.db')
+db_connect = create_engine('sqlite:///orders.db')
 
 @app.route('/')
 def main():
@@ -28,6 +29,14 @@ def update():
 @app.route('/orders')
 def orders():
     return render_template('orders.html')
+
+@app.route('/sac')
+def sac():
+    return render_template('sac.html')
+
+@app.route('/new_ticket')
+def newTickets():
+    return render_template('new_ticket.html')
 
 @app.route('/payments')
 def payments():
@@ -208,27 +217,26 @@ def ajaxCheckDelivery(cod_rastreio):
 
 @app.route('/ajax/save_order', methods=['POST'])
 def saveOder():
-    cart = json.dumps(session['cart'])
+    cart = session['cart']
     email = json.dumps(session['username'])
 
-    cod_rastreio = request.args.get('cod_rastreio_logistica')
-    id_pagamento = request.args.get('id_pagamento')
-    cep_de_entrega = request.args.get('cep_de_entrega')
+    cod_rastreio = request.form['cod_rastreio_logistica']
+    id_pagamento = request.form['id_pagamento']
+    cep_de_entrega = request.form['cep_de_entrega']
 
     try:
         conn = db_connect.connect()
         conn.execute("INSERT INTO pedidos (client_email, cod_rastreio_logistica, id_pagamento, cep_de_entrega)"
-                             " VALUES ({}, {}, {}, {});".format(email, cod_rastreio, id_pagamento, cep_de_entrega))
-
-        order_id = conn.lastrowid
-        conn.commit()
-
+                             " VALUES ({}, '{}', '{}', '{}');".format(email, cod_rastreio, id_pagamento, cep_de_entrega))
+        order_id = conn.execute("SELECT order_id from pedidos where cod_rastreio_logistica='{}';".format(cod_rastreio))
+        order_id = order_id.fetchall()[0][0]
         for item in cart:
             preco = item.get('price')
             item_id = item.get('id')
-            conn.execute("INSERT INTO itens_do_pedido (order_id, item_id, preco, quantidade) (VALUES {} {} {} {});".format(order_id, item_id, preco, 1))
-            conn.commit()
-    except:
+            conn.execute("INSERT INTO itens_do_pedido (order_id, item_id, preco, quantidade) VALUES ({}, '{}', {}, {});".format(order_id, item_id, preco, 1))
+        return json.dumps({}), "200"
+    except Exception as e:
+        print('TA DANDO ERRO NESSA PORRA: ' + str(e))
         return "Error"
 
 @app.route('/ajax/get_orders', methods=['GET'])
@@ -268,6 +276,10 @@ def getOrder():
                      }
                  ]}
     return json.dumps(json_out)
+
+@app.route('/ajax/check_tickets/<string:id>')
+def ajaxCheckTickets(id):
+    return aj.checkTickets("cliente1")
 
 if __name__ == "__main__":
     app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'

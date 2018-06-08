@@ -8,7 +8,8 @@ $(function(){
             type: 'POST',
             success: function(data, textStatus, xhr){
                 if(xhr.status == 200) {
-                    console.log(data);
+                    alert('Sucesso')
+                    
                 } else {
                     alert('Error', xhr.status);
                 }
@@ -29,13 +30,14 @@ $(function(){
             form += "&tipoEntrega=PAC&cepOrigem=13084762&peso=10&tipoPacote=Caixa&altura=10&largura=10&comprimento=10&cepDestino="
             form += $('#inputCep').val();
             $.ajax({
+                dataType: "json",
                 url: '/ajax/register_delivery',
                 data: form,
                 type: 'POST',
-                success: function(data, textStatus, xhr){
+                success: function(dataResult, textStatus, xhr){
                     if(xhr.status == 200) {
-                        console.log(data);
-                        saveOrder(data["codigoRastreio"], codigoPay, $('#inputCep').val());
+                        console.log(dataResult);
+                        saveOrder(dataResult["codigoRastreio"], codigoPay, $('#inputCep').val());
                     } else {
                         alert('Error', xhr.status);
                     }
@@ -127,7 +129,6 @@ $(function(){
                 success: function(data, textStatus, xhr){
                     if(xhr.status == 200) {
                         res = JSON.parse(data)
-                        alert(res["result"])
                         console.log(data);
                         registerDelivery(cartData, null);
                     } else {
@@ -153,7 +154,6 @@ $(function(){
                 success: function(data, textStatus, xhr){
                     if(xhr.status == 200) {
                         res = JSON.parse(data)
-                        alert("AUTHORIZED")
                         console.log(data);
                         registerDelivery(cartData, res["code"]);
                     } else {

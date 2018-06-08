@@ -9,8 +9,10 @@ class Ajax():
         self.url_payment = 'https://payment-server-mc851.herokuapp.com/payments'
         self.url_cep = 'http://node.thiagoelg.com'
         self.url_logistica = 'https://hidden-basin-50728.herokuapp.com'
+        self.url_sac = 'https://centralatendimento-mc857.azurewebsites.net'
         self.key_cep = {'x-api-key': '06c2cbde-66b2-4ca7-8f51-ed552c6c1c31'}
         self.key_logistica = 'd52bede3-88f0-568f-a71b-4f2a9ea6323a'
+        self.key_sac = 'bafecfbf93a5ecf25ca8c6ca19d46ea3bffdee0c'
 
     def signUp(self, data):
         data = dict((key, data.getlist(key)[0]) for key in data.keys())
@@ -111,7 +113,7 @@ class Ajax():
 
     def registerDelivery(self, data):
         data = dict((key, data.getlist(key)[0]) for key in data.keys())
-        data["apikey"]=self.key_logistica
+        data["apiKey"]=self.key_logistica
         s = requests.Session()
         url = self.url_logistica+"/cadastrarentrega"
         r = s.post(url, json=data)
@@ -121,4 +123,10 @@ class Ajax():
         s = requests.Session()
         url = self.url_logistica+"/rastrearentrega/"+cod_rastreio
         r = s.get(url, params={"apiKey":self.key_logistica})
+        return r.text, r.status_code
+
+    def checkTickets(self, client_id):
+        s = requests.Session()
+        url = self.url_sac+"/tickets/"+self.key_sac+"/"+client_id+"/"
+        r = s.get(url)
         return r.text, r.status_code

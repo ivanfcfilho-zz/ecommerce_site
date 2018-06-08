@@ -29,17 +29,16 @@ $(function(){
     new Date().valueOf()
     console.log(Date.now());
 
+    var id = null;
     $.getJSON( "/ajax/get_email", function(data) {
         clientData = getUser(data);
         $.when(clientData).done(function(client) {
             id = client["data"][0]["id"];
-
         });
     });
 
     $('#btnSendTicket').click(function(){
-        var form = $("#formMessage").serialize();
-        form +=
+        var form = "message="
         $.ajax({
             url: '/ajax/register_delivery',
             data: form,

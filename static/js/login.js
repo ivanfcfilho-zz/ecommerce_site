@@ -6,7 +6,6 @@ $(function(){
             data: $('form').serialize(),
             type: 'POST',
             success: function(data, textStatus, xhr){
-                    alert('Sucesso')
                     window.location.href = "/";
             },
             error: function(data, request, error){

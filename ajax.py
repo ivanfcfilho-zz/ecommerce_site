@@ -119,7 +119,6 @@ class Ajax():
 
     def checkDelivery(self, cod_rastreio):
         s = requests.Session()
-        query = cod_rastreio+"?apikey="+self.key_logistica
-        url = self.url_logistica+"/rastrearentrega/"+query
-        r = s.get(url)
+        url = self.url_logistica+"/rastrearentrega/"+cod_rastreio
+        r = s.get(url, params={"apiKey":self.key_logistica})
         return r.text, r.status_code

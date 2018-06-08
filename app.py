@@ -226,6 +226,43 @@ def saveOder():
     except:
         return "Error"
 
+@app.route('/ajax/get_orders', methods=['GET'])
+def getOrder():
+    #client_email = session['username']
+    # Get pedidos where client_email
+    # Get itens_do_pedido where order_id
+    # Exemplo de saida
+    json_out = {"orders":[
+                    {
+                    "order_id": "1",
+                    "client_email": "1",
+                    "cod_rastreio_logistica": "208da020-5c7d-11e8-9fa8-7b984a6a0aca",
+                    "id_pagamento": None,
+                    "cep_de_entrega": "13330-000",
+                    "itens_do_pedido": [{"order_id":"1",
+                                         "item_id":"2d4636de-47c5-4a9a-b196-6a46c6f48a58",
+                                         "quantidade":"2"},
+                                        {"order_id":"1",
+                                         "item_id":"f7a77f9d-a4c6-47dc-a60e-3b4013d34126",
+                                         "quantidade":"1"}
+                                        ]
+                    },
+                    {
+                    "order_id": "2",
+                    "client_email": "1",
+                    "cod_rastreio_logistica": "208da020-5c7d-11e8-9fa8-7b984a6a0aca",
+                    "id_pagamento": None,
+                    "cep_de_entrega": "13330-000",
+                    "itens_do_pedido": [{"order_id": "2",
+                                          "item_id": "2d4636de-47c5-4a9a-b196-6a46c6f48a58",
+                                          "quantidade": "2"},
+                                         {"order_id": "2",
+                                          "item_id": "f7a77f9d-a4c6-47dc-a60e-3b4013d34126",
+                                          "quantidade": "1"}
+                                         ]
+                     }
+                 ]}
+    return json.dumps(json_out)
 
 if __name__ == "__main__":
     app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'

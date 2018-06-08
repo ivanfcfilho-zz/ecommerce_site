@@ -59,7 +59,6 @@ $(document).ready(function () {
             contentType: 'application/json',
             type: 'POST',
             success: function(data, textStatus, xhr){
-                alert('Sucesso')
                 window.location.href = "/cart";
             },
             error: function(data, request, error){

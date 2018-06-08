@@ -12,10 +12,11 @@ CREATE TABLE pedidos (
 CREATE TABLE itens_do_pedido (
 	order_id int,
 	item_id varchar(256),
+	preco int,
 	quantidade int
 );
 
 
 INSERT INTO public.pedidos (client_email, cod_rastreio_logistica, id_pagamento, cep_de_entrega) VALUES (10, value2 , value3, ...);
 
-INSERT INTO itens_do_pedido (order_id, item_id, quantidade) VALUES ();
+INSERT INTO itens_do_pedido (order_id, preco, item_id, quantidade) VALUES ();

@@ -1,13 +1,32 @@
 $(function(){
 
-    function registerDelivery(cartData){
+    function saveOrder(codigoRastreio, codigoPay, cep) {
+        var form = "cod_rastreio_logistica="+codigoRastreio+"&id_pagamento="+codigoPay+"&cep_de_entrega="+cep;
+        $.ajax({
+            url: '/ajax/save_order',
+            data: form,
+            type: 'POST',
+            success: function(data, textStatus, xhr){
+                if(xhr.status == 200) {
+                    console.log(data);
+                } else {
+                    alert('Error', xhr.status);
+                }
+            },
+            error: function(data, request, error){
+                console.log(error);
+            }
+        });
+    }
+
+    function registerDelivery(cartData, codigoPay){
         if (!jQuery.isEmptyObject(cartData)) {
-            var form = "idProduto="
+            var form = "idProduto=1"
             $.each(cartData, function(index, value) {
                  form += value["id"]+","
             });
             form = form.slice(0, -1);
-            form += "&tipoEntrega=PAC&cepOrigem=13330000&peso=10&tipoPacote=Caixa&altura=10&largura=10&comprimento=10&cepDestino="
+            form += "&tipoEntrega=PAC&cepOrigem=13084762&peso=10&tipoPacote=Caixa&altura=10&largura=10&comprimento=10&cepDestino="
             form += $('#inputCep').val();
             $.ajax({
                 url: '/ajax/register_delivery',
@@ -16,6 +35,7 @@ $(function(){
                 success: function(data, textStatus, xhr){
                     if(xhr.status == 200) {
                         console.log(data);
+                        saveOrder(data["codigoRastreio"], codigoPay, $('#inputCep').val());
                     } else {
                         alert('Error', xhr.status);
                     }
@@ -28,7 +48,7 @@ $(function(){
     }
 
     function checkShipping(cep_val){
-        query = 'tipoEntrega=PAC&cepOrigem=13330-000&peso=1&tipoPacote=Caixa&comprimento=1&altura=1&largura=1&cepDestino='+cep_val;
+        query = 'tipoEntrega=PAC&cepOrigem=13084762&peso=1&tipoPacote=Caixa&comprimento=1&altura=1&largura=1&cepDestino='+cep_val;
         $.ajax({
             dataType: "json",
             url: "/ajax/get_shipping/?"+query,
@@ -36,6 +56,7 @@ $(function(){
             success: function(data, textStatus, xhr){
                 if(xhr.status == 200) {
                     var preco = parseFloat(data["preco"]);
+                    preco = preco/100;
                     $('<tr><td class="text-capitalize">Frete: </td><td>R$ '+preco.toFixed(2)+'</td></tr>').appendTo("tbody");
                     totalValue += preco;
                     $('<tr><td class="text-capitalize"><b>Preço Total (com frete): </b></td><td><b>R$ '+totalValue.toFixed(2)+'</b></td></tr>').appendTo("tbody");
@@ -108,7 +129,7 @@ $(function(){
                         res = JSON.parse(data)
                         alert(res["result"])
                         console.log(data);
-                        registerDelivery(cartData);
+                        registerDelivery(cartData, null);
                     } else {
                         alert('Error', xhr.status);
                     }
@@ -134,7 +155,7 @@ $(function(){
                         res = JSON.parse(data)
                         alert("AUTHORIZED")
                         console.log(data);
-                        registerDelivery(cartData);
+                        registerDelivery(cartData, res["code"]);
                     } else {
                         alert('Error', xhr.status);
                     }

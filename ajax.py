@@ -133,13 +133,13 @@ class Ajax():
         r = s.get(url, params={"apiKey":self.key_logistica})
         return r.text, r.status_code
 
-<<<<<<< HEAD
+
     def checkTickets(self, client_id):
         s = requests.Session()
         url = self.url_sac+"/tickets/"+self.key_sac+"/"+client_id+"/"
         r = s.get(url)
         return r.text, r.status_code
-=======
+
     def getStatusCredit(self, cpf):
         s = requests.Session()
         header = {'x-api-key': 'tmvcgp2'}
@@ -152,4 +152,4 @@ class Ajax():
             return r.text, r.status_code
         else:
             return r.text, r.status_code
->>>>>>> 8770fd110b2f4830c5fcff0601093e73a80438c0
+

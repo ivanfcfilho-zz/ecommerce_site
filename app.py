@@ -4,7 +4,8 @@ import json
 from sqlalchemy import create_engine
 from sqlalchemy import exc
 import json
-
+import random
+import requests
 
 app = Flask(__name__)
 aj = Ajax()
@@ -55,6 +56,8 @@ def ajaxLogin():
     r = aj.login(request.form)
     if(r[1] == 200):
         session['username'] = request.form["email"]
+        user = json.loads(aj.getUser(session['username'])[0])['data'][0]
+        session['cpf'] = user['cpf']
         session.modified = True
     else:
         print('Erro')
@@ -115,6 +118,11 @@ def showProduct(productId):
     if(r[1] != 200):
         print('Erro')
     return r
+
+@app.route('/ajax/getStatusCredit/<string:cpf>')
+def getStatusCredit(cpf):
+    r = aj.getStatusCredit(cpf)
+    return r 
 
 @app.route('/ajax/product_search/')
 def searchProduct():
@@ -177,8 +185,8 @@ def purchase():
 @app.route('/ajax/pay_credit', methods=['POST'])
 def payCredit():
     ret = aj.payCredit(request.form)
-    #if result == AUTHORIZED
-    session['idPagamento'] = json.dumps(ret).get('operationHash')
+    print(ret)
+    session['idPagamento'] = json.loads(ret[0]).get('operationHash')
     return ret
 
 @app.route('/ajax/pay_ticket', methods=['POST'])

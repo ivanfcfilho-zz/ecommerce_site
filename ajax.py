@@ -1,5 +1,5 @@
 import requests
-import json
+from time import gmtime, strftime
 
 class Ajax():
     
@@ -139,6 +139,30 @@ class Ajax():
         url = self.url_sac+"/tickets/"+self.key_sac+"/"+client_id+"/"
         r = s.get(url)
         return r.text, r.status_code
+
+    def postTicket(self, data):
+        data = dict((key, data.getlist(key)[0]) for key in data.keys())
+        data["timestamp"]=strftime('%Y-%m-%dT%H:%M', gmtime())
+        client_id = data.pop("client_id", None)
+        compra_id = data.pop("compraId", None)
+        ticket_id = data.pop("ticketId", None)
+        if client_id is None:
+            return 500
+        if compra_id:
+            s = requests.Session()
+            url = self.url_sac+"/tickets/"+self.key_sac+"/"+client_id+"/compra/"+compra_id
+            r = s.post(url, json=data)
+            return r.text, r.status_code
+        if ticket_id:
+            s = requests.Session()
+            url = self.url_sac + "/tickets/" + self.key_sac + "/" + client_id + "/ticket/" + ticket_id
+            r = s.put(url, json=data)
+            return r.text, r.status_code
+        else:
+            s = requests.Session()
+            url = self.url_sac+"/tickets/"+self.key_sac+"/"+client_id+"/"
+            r = s.post(url, json=data)
+            return r.text, r.status_code
 
     def getStatusCredit(self, cpf):
         s = requests.Session()

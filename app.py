@@ -80,6 +80,7 @@ def ajaxUpdate():
 @app.route('/logout', methods=['GET'])
 def logout():
     session.pop('username', None)
+    session.pop('cart', None)
     session.modified = True
     return render_template('index.html')
 
@@ -168,7 +169,7 @@ def addToCart():
         session['cart'] = d
     #else 
     #    return 500
-
+    print(session['cart'])
     return "200"
     
 @app.route('/ajax/get_cart/', methods=['GET'])
@@ -231,11 +232,12 @@ def saveOder():
     cod_rastreio = request.form['cod_rastreio_logistica']
     id_pagamento = request.form['id_pagamento']
     cep_de_entrega = request.form['cep_de_entrega']
+    frete = request.form['frete']
 
     try:
         conn = db_connect.connect()
-        conn.execute("INSERT INTO pedidos (client_email, cod_rastreio_logistica, id_pagamento, cep_de_entrega)"
-                             " VALUES ({}, '{}', '{}', '{}');".format(email, cod_rastreio, id_pagamento, cep_de_entrega))
+        conn.execute("INSERT INTO pedidos (client_email, cod_rastreio_logistica, id_pagamento, cep_de_entrega, frete)"
+                             " VALUES ({}, '{}', '{}', '{}', '{}');".format(email, cod_rastreio, id_pagamento, cep_de_entrega, frete))
         order_id = conn.execute("SELECT order_id from pedidos where cod_rastreio_logistica='{}';".format(cod_rastreio))
         order_id = order_id.fetchall()[0][0]
         for item in cart:
@@ -267,6 +269,7 @@ def getOrder():
         o['cod_rastreio_logistica'] = order[2]
         o['id_pagamento'] = order[3]
         o['cep'] = order[4]
+        o['frete'] = order[5]
         o['itens_do_pedido'] = []
 
         result = conn.execute("SELECT * FROM itens_do_pedido WHERE order_id='{}'".format(order[0]))
@@ -275,8 +278,8 @@ def getOrder():
             i = {}
             i['order_id'] = item[0]
             i['item_id'] = item[1]
-            i['quantidade'] = item[3]
             i['preco'] = item[2]
+            i['quantidade'] = item[3]
             o['itens_do_pedido'].append(i)
         orderlist.append(o)
 
@@ -316,7 +319,15 @@ def getOrder():
 
 @app.route('/ajax/check_tickets/<string:id>')
 def ajaxCheckTickets(id):
-    return aj.checkTickets("cliente1")
+    return aj.checkTickets(id)
+
+@app.route('/ajax/post_ticket', methods=['POST'])
+def postTicket():
+    print(request.form)
+    ret = aj.postTicket(request.form)
+    print(ret)
+    return ret
+
 
 if __name__ == "__main__":
     app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'

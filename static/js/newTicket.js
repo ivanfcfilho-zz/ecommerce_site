@@ -19,36 +19,45 @@ $(function(){
             });
     }
 
+    var compraId = null;
     var ticketId = $.urlParam('ticketId');
     if (ticketId == null) {
-        var compraId = $.urlParam('compraId');
         $("#ticketTitle").text("Novo Ticket");
+        var compraId = $.urlParam('compraId');
+        if (compraId != null) {
+            $("#purchase").text("ID da Compra: "+compraId);
+        }
     } else {
         $("#ticketTitle").text("Nova Mensagem");
+        $("#purchase").text("ID do Ticket: "+ticketId);
     }
-    new Date().valueOf()
-    console.log(Date.now());
 
     var id = null;
     $.getJSON( "/ajax/get_email", function(data) {
         clientData = getUser(data);
+        console.log(clientData);
         $.when(clientData).done(function(client) {
             id = client["data"][0]["id"];
+            $("#btnSendTicket").attr("disabled", false);
         });
     });
 
     $('#btnSendTicket').click(function(){
-        var form = "message="
+        var form = "message="+$('#formMessage').val();
+        form += "&sender=Cliente&client_id="+id;
+        if (ticketId != null) {
+            form += "&ticketId="+ticketId;
+        }
+        if (compraId != null) {
+            form += "&compraId="+compraId;
+        }
         $.ajax({
-            url: '/ajax/register_delivery',
+            url: '/ajax/post_ticket',
             data: form,
             type: 'POST',
             success: function(data, textStatus, xhr){
-                if(xhr.status == 200) {
-                    console.log(data);
-                } else {
-                    alert('Error', xhr.status);
-                }
+                console.log(data);
+                window.location.href = "/sac";
             },
             error: function(data, request, error){
                 console.log(error);

@@ -9,8 +9,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link href="../static/css/signup.css" rel="stylesheet">
   <script src="../static/js/jquery-1.11.2.js"></script>
-  <script src="../static/js/jquery.validate.js"></script>
-  <script src="../static/js/new_ticket.js"></script>
+  <script src="../static/js/newTicket.js"></script>
   <style>
     /* Remove the navbar's default rounded borders and increase the bottom margin */
     .navbar {
@@ -76,10 +75,11 @@
     </div>
   <div class="jumbotron text-center col-sm-8">
     <h2 id="ticketTitle">Ticket</h2>
+    <h5 id="purchase"></h5>
     <div class="col-md-1 text-center"></div>
     <div class="col-md-10 text-center">
         <textarea id="formMessage" class="form-control" rows="3" id="message" required></textarea>
-        <button id="btnSendTicket" type="button" class="btn btn-success pull-right">Enviar</button>
+        <button id="btnSendTicket" type="button" class="btn btn-success pull-right" disabled>Enviar</button>
     </div>
     <div class="col-md-1 text-center"></div>
   </div>

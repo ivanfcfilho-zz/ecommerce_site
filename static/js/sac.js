@@ -17,9 +17,10 @@ $(function(){
             $.each(data["ticketsList"], function(index, value) {
                 messages = [];
                 $.each(value["messagesList"], function(index2, mes) {
-                    messages.push(`     <div class="container">
+                    messages.unshift(`     <div class="container">
                                             <div class="col-md-3 text-center">`+mes["timestamp"]+`</div>
-                                            <div class="col-md-9">`+mes["message"]+`</div>
+                                            <div class="col-md-3 text-center">`+mes["sender"]+`</div>
+                                            <div class="col-md-6">`+mes["message"]+`</div>
                                         </div>
                                         <br>
                                       `);
@@ -30,7 +31,7 @@ $(function(){
                 } else {
                     var compra = value["compraId"];
                 }
-                tickets.push(`  <div class="row">
+                tickets.unshift(`  <div class="row">
                                     <div class="col-md-3 text-center">`+value["ticketId"]+`</div>
                                     <div class="col-md-3 text-center">`+compra+`</div>
                                     <div class="col-md-3 text-center">`+value["messageSize"]+`</div>
@@ -41,7 +42,8 @@ $(function(){
                                     <div>
                                       <br>
                                       <div class="col-md-3 text-center"><b>Data</b></div>
-                                      <div class="col-md-6 text-center"><b>Mensagem</b></div>
+                                      <div class="col-md-3 text-center"><b>Escrito Por</b></div>
+                                      <div class="col-md-3 text-center"><b>Mensagem</b></div>
                                       <div class="col-md-3 text-center"><a href="/new_ticket?ticketId=`+value["ticketId"]+`"> Nova Mensagem</a></div>
                                     </div>
                                     <div>`+messages.join("")+`</div>

@@ -5,7 +5,8 @@ CREATE TABLE pedidos (
     client_email varchar(256),
     cod_rastreio_logistica varchar(256),
     id_pagamento varchar(256),
-    cep_de_entrega varchar(256)
+    cep_de_entrega varchar(256),
+    frete varchar(256)
 );
 
 

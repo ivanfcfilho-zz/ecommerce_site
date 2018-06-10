@@ -53,6 +53,9 @@ $(document).ready(function () {
     
     $('#btnBuy').click(function(){
         json = JSON.stringify(prodData);
+        if (prodData == {}){
+            alert("Erro, tente novamente");
+        }
         $.ajax({
             url: '/add_to_cart',
             data: json,

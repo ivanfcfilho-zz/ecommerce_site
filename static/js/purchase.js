@@ -1,15 +1,16 @@
 $(function(){
 
     function saveOrder(codigoRastreio, codigoPay, cep) {
-        var form = "cod_rastreio_logistica="+codigoRastreio+"&id_pagamento="+codigoPay+"&cep_de_entrega="+cep;
+        var frete = $("#frete").text();
+        frete = frete.replace("R$ ", "");
+        var form = "cod_rastreio_logistica="+codigoRastreio+"&id_pagamento="+codigoPay+"&cep_de_entrega="+cep+"&frete="+frete;
         $.ajax({
             url: '/ajax/save_order',
             data: form,
             type: 'POST',
             success: function(data, textStatus, xhr){
                 if(xhr.status == 200) {
-                    alert('Sucesso')
-                    
+                    window.location.href = "/orders";
                 } else {
                     alert('Error', xhr.status);
                 }
@@ -47,6 +48,7 @@ $(function(){
                 }
             });
         }
+        else {console.log("Carring Vazio");}
     }
 
     function checkShipping(cep_val){
@@ -59,9 +61,20 @@ $(function(){
                 if(xhr.status == 200) {
                     var preco = parseFloat(data["preco"]);
                     preco = preco/100;
-                    $('<tr><td class="text-capitalize">Frete: </td><td>R$ '+preco.toFixed(2)+'</td></tr>').appendTo("tbody");
-                    totalValue += preco;
-                    $('<tr><td class="text-capitalize"><b>Preço Total (com frete): </b></td><td><b>R$ '+totalValue.toFixed(2)+'</b></td></tr>').appendTo("tbody");
+                    if (isFirst == false){
+                        var frete = $("#frete").text();
+                        frete = frete.replace("R$ ", "");
+                        totalValue -= frete;
+                        totalValue += preco;
+                        $("#frete").text('R$ '+preco.toFixed(2));
+                        $("#total").text('R$ '+totalValue.toFixed(2));
+                    } else {
+                        $('<tr><td class="text-capitalize">Frete: </td><td id="frete">R$ '+preco.toFixed(2)+'</td></tr>').appendTo("tbody");
+                        totalValue += preco;
+                        $('<tr><td class="text-capitalize"><b>Preço Total (com frete): </b></td><td id="total"><b>R$ '+totalValue.toFixed(2)+'</b></td></tr>').appendTo("tbody");
+                        console.log($("#frete").val());
+                        isFirst = false;
+                    }
                 } else {
                     alert('Error', xhr.status);
                 }
@@ -83,7 +96,7 @@ $(function(){
                     $("#inputAddress").val(res["logradouro"]+", "+res["bairro"]+", "+res["cidade"]+", "+res["uf"])
                     $("#btnPayTicket").attr("disabled", false);
                     $("#btnPay").attr("disabled", false);
-                    checkShipping(cep_val);
+                    checkShipping(cep_val, );
                 } else {
                     alert('Error', xhr.status);
                 }
@@ -119,6 +132,7 @@ $(function(){
     var cartData = {};
     var totalValue = 0;
     var lastCep = 0;
+    var isFirst = true;
     $.getJSON( "/ajax/get_cart/", function( data ) {
         if (!jQuery.isEmptyObject(data)) {
             cartData = data;

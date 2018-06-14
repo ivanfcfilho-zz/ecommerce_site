@@ -101,6 +101,12 @@ class Ajax():
         r = s.post(url, json=data)
         return r.text, r.status_code
 
+    def checkPayment(self, code):
+        s = requests.Session()
+        url = self.url_payment+"/bankTicket/"+code+"/status"
+        r = s.get(url)
+        return r.text, r.status_code
+
     def getCep(self, cep):
         s = requests.Session()
         url = self.url_cep+"/paises/br/cep/"+cep

@@ -67,4 +67,26 @@ $(function(){
             }
         });
     });
+
+
+    function validateCep(){
+        var cep_val = $('#inputCep').val();
+        $.ajax({
+            url: "/ajax/get_cep/"+cep_val,
+            type: 'GET',
+            success: function(data, textStatus, xhr){
+                if(xhr.status == 200) {
+                    res = JSON.parse(data)
+                } else {
+                    alert('Error', xhr.status);
+                }
+            },
+            error: function(data, request, error, xhr){
+                var validator = $( "form" ).validate();
+                validator.showErrors({
+                  "cep": "CEP não existe"
+                });
+            }
+        });
+    }
 });

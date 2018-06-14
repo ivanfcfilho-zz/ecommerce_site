@@ -27,7 +27,7 @@ $(function() {
             });
     }
 
-    /*function check_payment(value) {
+    function check_payment(value) {
         return $.getJSON( "/ajax/check_payment/"+value, function( payment_data ) {
             return payment_data;
         })
@@ -35,7 +35,7 @@ $(function() {
                 var err = textStatus + ", " + error;
                 console.log( "Request Failed: " + err );
             });
-    }*/
+    }
 
     $.getJSON( "/ajax/get_orders", function( data ) {
         if (!jQuery.isEmptyObject(data)) {
@@ -43,12 +43,19 @@ $(function() {
             $.each(data["orders"], function(index, value) {
                 var retProducts = get_products(value["itens_do_pedido"]);
                 var retDelivery = check_delivery(value["cod_rastreio_logistica"]);
-                /*if (value['id_pagamento'] != null){
+                if (value['id_pagamento'] != null){
                     var payment = check_payment(value["id_pagamento"]);
                 } else {
-                    var payment = "Pagamento Completo";
-                }*/
-                $.when(retDelivery).done(function(delivery_data) {
+                    var payment = null;
+                }
+                $.when(retDelivery, payment).done(function() {
+                    if (payment == null) {
+                        payment_status = "OK";
+                    }
+                    else{
+
+                        payment_status = payment['responseJSON']["status"];
+                    }
                     $.when.apply($, retProducts).then(function() {
                         var products = [];
                         var preco = 0;
@@ -58,7 +65,7 @@ $(function() {
                             products.push('<tr><td class="text-capitalize">'+product_data["name"].toLowerCase()+'</td><td>'+value_items["quantidade"]+'</td><td>'+parseFloat(value_items["preco"]).toFixed(2)+'</td></tr>');
                             preco += parseFloat(value_items["preco"]);
                         });
-                        var delD = delivery_data;
+                        var delD = retDelivery["responseJSON"];
                         var delivery = [];
                         $.each(delD["historicoRastreio"], function(index, historico) {
                             if (index == 0){
@@ -85,7 +92,7 @@ $(function() {
                             </div>
                             <div class="row">
                               <div class="col-sm-4"><h6><b>Estado do Pagamento:<b></h6></div>
-                              <div class="col-sm-4"><h6>Pagamento Completo</h6></div>
+                              <div class="col-sm-4"><h6>`+payment_status+`</h6></div>
                               <div class="col-sm-4"><button id="btnDetails`+index+`" type="button" class="btn btn-success btn-sm">Ver Detalhes</button></div>
                             </div>
                             <br>

@@ -158,8 +158,7 @@ def addToCart():
     if data is None:
         print("Erro. Nenhum produto enviado")
         return "400"
-    
-    #if session['username'] != None:
+
     if session.get('cart') == None:
         d = [data]
         session['cart'] = d
@@ -181,6 +180,8 @@ def getCart():
 
 @app.route('/purchase')
 def purchase():
+    if session.get('username') == None:
+        return render_template('login.html')
     return render_template('purchase.html')
 
 @app.route('/ajax/pay_credit', methods=['POST'])
@@ -193,6 +194,11 @@ def payCredit():
 @app.route('/ajax/pay_ticket', methods=['POST'])
 def payTicket():
     ret = aj.payTicket(request.form)
+    return ret
+
+@app.route('/ajax/check_payment/<string:code>')
+def checkPayment(code):
+    ret = aj.checkPayment(code)
     return ret
 
 @app.route('/ajax/get_cep/<string:cep>')

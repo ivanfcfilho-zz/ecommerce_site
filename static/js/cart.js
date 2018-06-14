@@ -9,7 +9,10 @@ $.getJSON( "/ajax/get_cart/", function( data ) {
             totalValue += value["price"];
         });
     }
-    if (items.length != 0) { $(items.join("")).appendTo("tbody"); }
+    if (items.length != 0) {
+        $(items.join("")).appendTo("tbody");
+        $("#btnPurchase").attr("disabled", false);
+    }
     $('<tr><td></td><td class="text-capitalize"><b>Preço Total: </b></td><td><b>R$ '+totalValue.toFixed(2)+'</b></td></tr>').appendTo("tbody");
 })            
     .fail(function( jqxhr, textStatus, error ) {

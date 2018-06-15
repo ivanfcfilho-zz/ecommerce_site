@@ -5,7 +5,7 @@ $.getJSON( "/ajax/get_cart/", function( data ) {
     var totalValue = 0;
     if (!jQuery.isEmptyObject(data)) {
         $.each(data, function(index, value) {
-            items.push('<tr><td><img class="img-thumbnail" style="width:30%" alt="Image" id="imageUrl" src="'+value["imageUrl"]+'"></td><td class="text-capitalize">'+value["name"].toLowerCase()+'</td><td>R$ '+value["price"].toFixed(2)+'</td><td><a href="/product/'+value["id"]+'">Ir Para Página</a><br><a href="/remove?id='+value["id"]+'">Remover</a><button </td><td><button onclick=add(this)  id="duplicate'+index+'" class="btn btn-primary" type="button" >+r</button></td></tr>');
+            items.push('<tr><td><img class="img-thumbnail" style="width:30%" alt="Image" id="imageUrl" src="'+value["imageUrl"]+'"></td><td class="text-capitalize">'+value["name"].toLowerCase()+'</td><td>R$ '+value["price"].toFixed(2)+'</td><td><a href="/product/'+value["id"]+'">Ir Para Página</a><br><a href="/remove?id='+value["id"]+'">Remover</a></td><td><button onclick=add(this)  id="duplicate'+index+'" class="btn btn-sm btn-success" type="button" >+</button></td></tr>');
             totalValue += value["price"];
         });
     }

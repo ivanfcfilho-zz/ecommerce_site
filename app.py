@@ -1,11 +1,7 @@
 from flask import Flask, render_template, json, request, session, redirect, url_for
 from ajax import Ajax
-import json
 from sqlalchemy import create_engine
-from sqlalchemy import exc
 import json
-import random
-import requests
 import send_email
 
 app = Flask(__name__)
@@ -27,6 +23,10 @@ def showLogin():
 @app.route('/update')
 def update():
     return render_template('update.html')
+
+@app.route('/change_email')
+def changeEmail():
+    return render_template('change_email.html')
 
 @app.route('/orders')
 def orders():
@@ -78,6 +78,13 @@ def ajaxGetUser(email):
 def ajaxUpdate():
     return aj.update(request.form)
 
+@app.route('/ajax/change_email', methods=['POST'])
+def ajaxChangeEmail():
+    ret = aj.changeEmail(request.form)
+    if ret[1] == 200:
+        session['username'] = request.form["new_email"]
+    return ret
+
 @app.route('/logout', methods=['GET'])
 def logout():
     session.pop('username', None)
@@ -116,6 +123,13 @@ def cart():
 
 @app.route('/ajax/product_details/<string:productId>')
 def showProduct(productId):
+    r = aj.getProduct(productId)
+    if(r[1] != 200):
+        print('Erro')
+    return r
+
+@app.route('/ajax/reserve_product/<string:productId>')
+def reserveProduct(productId):
     r = aj.getProduct(productId)
     if(r[1] != 200):
         print('Erro')
@@ -313,7 +327,8 @@ def clearCart():
 
 @app.route('/ajax/sendEmailCancel')
 def sendEmailCancel():
-    send_email.send_email(session.get('username'), "Ola. Volta a nossa loja", "Ola: " + session['username'] + " temos produtor muito bons esperando por voce, volte a comprar na nossa loka")
+    if session.get('username'):
+        send_email.send_email(session.get('username'), "Ola. Volta a nossa loja", "Ola: " + session['username'] + " temos produtor muito bons esperando por voce, volte a comprar na nossa loka")
     return '', 200
 
 @app.route('/ajax/sendEmailPurchase')

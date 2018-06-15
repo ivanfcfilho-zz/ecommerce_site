@@ -31,6 +31,13 @@ class Ajax():
         r = s.put(url, json=data)
         return r.text, r.status_code
 
+    def changeEmail(self, data):
+        data = dict((key, data.getlist(key)[0]) for key in data.keys())
+        s = requests.Session()
+        url = self.url_client+"/api/client/email"
+        r = s.put(url, json=data)
+        return r.text, r.status_code
+
     def login(self, data):
         data = dict((key, data.getlist(key)[0]) for key in data.keys())
         s = requests.Session()

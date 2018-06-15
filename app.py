@@ -318,7 +318,7 @@ def postTicket():
     return ret
 @app.route('/ajax/clearCart')
 def clearCart():
-
+    cart = session['cart']
     for item in cart:
         item_id = item.get('id')
         r = aj.reserveProduct(item_id, False)

@@ -43,7 +43,7 @@ $(function() {
             $.each(data["orders"], function(index, value) {
                 var retProducts = get_products(value["itens_do_pedido"]);
                 var retDelivery = check_delivery(value["cod_rastreio_logistica"]);
-                if (value['id_pagamento'] != null){
+                if (value['id_pagamento'] != 'undefined'){
                     var payment = check_payment(value["id_pagamento"]);
                 } else {
                     var payment = null;

@@ -1,4 +1,5 @@
 import requests
+import send_email
 from time import gmtime, strftime
 
 class Ajax():
@@ -96,9 +97,11 @@ class Ajax():
 
     def payTicket(self, data):
         data = dict((key, data.getlist(key)[0]) for key in data.keys())
+        print(data)
         s = requests.Session()
         url = self.url_payment+"/bankTicket"
         r = s.post(url, json=data)
+        print(r.text)
         return r.text, r.status_code
 
     def checkPayment(self, code):

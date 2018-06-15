@@ -51,9 +51,7 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="/product_search/">Products</a></li>
                 <li><a href="#">Contact</a></li>
-                {% if session['username'] %}
                 <li><a href="/cart">Carrinho</a></li>
-                {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if session['username'] %}
@@ -82,11 +80,15 @@
             <br>
             <div class ="row nopadding">
                 <form id="formAddress">
-                    <div class="col-sm-10 nopadding">
+                    <div class="col-sm-12"> 
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Usar endereço cadastrado</label>
+                    </div>
+                    <div class="col-sm-10 nopadding address_b">
                         <label for="inputAddress">Endereço</label>
                         <input type="text" name="address" id="inputAddress" class="form-control" placeholder="Endereço" required>
                     </div>
-                    <div class="col-sm-2 nopadding">
+                    <div class="col-sm-2 nopadding address_b">
                         <label for="inputCep">Cep</label>
                         <input type="text" name="cep" id="inputCep" class="form-control" placeholder="XXXXXXXX" required>
                     </div>

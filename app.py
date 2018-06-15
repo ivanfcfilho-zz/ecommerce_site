@@ -6,6 +6,7 @@ from sqlalchemy import exc
 import json
 import random
 import requests
+import send_email
 
 app = Flask(__name__)
 aj = Ajax()
@@ -155,10 +156,10 @@ def searchCategory():
 @app.route('/add_to_cart', methods=['POST'])
 def addToCart():
     data = request.get_json()
-    if data is None:
+    if data is None or data == {}:
         print("Erro. Nenhum produto enviado")
         return "400"
-
+    
     if session.get('cart') == None:
         d = [data]
         session['cart'] = d
@@ -166,6 +167,7 @@ def addToCart():
         d = session['cart']
         d.append(data)
         session['cart'] = d
+    session.modified = True
     #else 
     #    return 500
     print(session['cart'])
@@ -260,11 +262,9 @@ def getOrder():
     client_email = session['username']
 
     conn = db_connect.connect()
-    print("\n***********\n")
 
     result = conn.execute("SELECT * FROM pedidos WHERE client_email='{}'".format(client_email))#"SELECT * FROM pedidos AS p INNER JOIN itens_do_pedido AS i ON p.order_id = i.order_id where p.client_email='{}' order by p.order_id;".format(client_email))
     orders = result.fetchall()
-
     response = {}
 
     orderlist = []
@@ -291,36 +291,6 @@ def getOrder():
 
     response['orders'] = orderlist
 
-    """json_out = {"orders":[
-                    {
-                    "order_id": "1",
-                    "client_email": "1",
-                    "cod_rastreio_logistica": "208da020-5c7d-11e8-9fa8-7b984a6a0aca",
-                    "id_pagamento": None,
-                    "cep_de_entrega": "13330-000",
-                    "itens_do_pedido": [{"order_id":"1",
-                                         "item_id":"2d4636de-47c5-4a9a-b196-6a46c6f48a58",
-                                         "quantidade":"2"},
-                                        {"order_id":"1",
-                                         "item_id":"f7a77f9d-a4c6-47dc-a60e-3b4013d34126",
-                                         "quantidade":"1"}
-                                        ]
-                    },
-                    {
-                    "order_id": "2",
-                    "client_email": "1",
-                    "cod_rastreio_logistica": "208da020-5c7d-11e8-9fa8-7b984a6a0aca",
-                    "id_pagamento": None,
-                    "cep_de_entrega": "13330-000",
-                    "itens_do_pedido": [{"order_id": "2",
-                                          "item_id": "2d4636de-47c5-4a9a-b196-6a46c6f48a58",
-                                          "quantidade": "2"},
-                                         {"order_id": "2",
-                                          "item_id": "f7a77f9d-a4c6-47dc-a60e-3b4013d34126",
-                                          "quantidade": "1"}
-                                         ]
-                     }
-                 ]}"""
     return json.dumps(response)
 
 @app.route('/ajax/check_tickets/<string:id>')
@@ -333,7 +303,24 @@ def postTicket():
     ret = aj.postTicket(request.form)
     print(ret)
     return ret
+@app.route('/ajax/clearCart')
+def clearCart():
+    d = session['cart']
+    d = []
+    session['cart'] = d
+    session.modified = True
+    return '', 200
 
+@app.route('/ajax/sendEmailCancel')
+def sendEmailCancel():
+    send_email.send_email(session.get('username'), "Ola. Volta a nossa loja", "Ola: " + session['username'] + " temos produtor muito bons esperando por voce, volte a comprar na nossa loka")
+    return '', 200
+
+@app.route('/ajax/sendEmailPurchase')
+def sendEmailPurchase():
+    send_email.send_email(session.get('username'), "Compra Realiza Com Sucess", "PARABENS por comprar na loja Clientes 2, nunca mais volte aqui por favor, zuera, volta sim.")
+    return '', 200
+    
 
 if __name__ == "__main__":
     app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'

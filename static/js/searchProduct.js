@@ -29,7 +29,7 @@ $(document).ready(function () {
     $.getJSON( "/ajax/product_search/"+params, function( data ) {
         var items = [];
         $.each( data, function(index, value) {
-            items.push('<tr><td><img class="img-thumbnail" style="width:30%" alt="Image" id="imageUrl" src="'+value["imageUrl"]+'"></td><td class="text-capitalize">'+value["name"].toLowerCase()+'</td><td>R$ '+value["price"].toFixed(2)+'</td><td><a href="/product/'+value["id"]+'">Ir Para Página</a></td></tr>');
+            items.push('<tr><td><img class="img-thumbnail" style="height: 100px;" alt="Image" id="imageUrl" src="'+value["imageUrl"]+'"></td><td class="text-capitalize">'+value["name"].toLowerCase()+'</td><td>R$ '+value["price"].toFixed(2)+'</td><td><a href="/product/'+value["id"]+'">Ir Para Página</a></td></tr>');
         });
         if (items.length != 0) {
             $(items.join("")).appendTo("tbody");

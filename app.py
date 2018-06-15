@@ -128,13 +128,6 @@ def showProduct(productId):
         print('Erro')
     return r
 
-@app.route('/ajax/reserve_product/<string:productId>')
-def reserveProduct(productId):
-    r = aj.getProduct(productId)
-    if(r[1] != 200):
-        print('Erro')
-    return r
-
 @app.route('/ajax/getStatusCredit/<string:cpf>')
 def getStatusCredit(cpf):
     r = aj.getStatusCredit(cpf)
@@ -173,7 +166,16 @@ def addToCart():
     if data is None or data == {}:
         print("Erro. Nenhum produto enviado")
         return "400"
-    
+    id =  data["id"]
+    if id is None:
+        print("Erro.")
+        return "400"
+    '''
+    r = aj.reserveProduct(id, True)
+    if (r[1] != 200):
+        print('Erro')
+        return r
+    '''
     if session.get('cart') == None:
         d = [data]
         session['cart'] = d
@@ -182,8 +184,6 @@ def addToCart():
         d.append(data)
         session['cart'] = d
     session.modified = True
-    #else 
-    #    return 500
     print(session['cart'])
     return "200"
     
@@ -319,6 +319,9 @@ def postTicket():
     return ret
 @app.route('/ajax/clearCart')
 def clearCart():
+    '''r = aj.reserveProduct(productId, False)
+    if (r[1] != 200):
+        print('Erro')'''
     d = session['cart']
     d = []
     session['cart'] = d

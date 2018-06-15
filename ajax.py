@@ -64,7 +64,16 @@ class Ajax():
         url = self.url_product+"/products/"+productId
         r = s.get(url)
         return r.text, r.status_code
-        
+
+    def reserveProduct(self, productId, reserve):
+        s = requests.Session()
+        if reserve:
+            url = self.url_product+"/reservation/reserve/"+productId
+        else:
+            url = self.url_product + "/reservation/release/" + productId
+        r = s.put(url)
+        return r.text, r.status_code
+
     def searchProduct(self, params):
         s = requests.Session()
         query = ""

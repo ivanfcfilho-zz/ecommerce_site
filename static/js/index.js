@@ -6,13 +6,14 @@ $(document).ready(function () {
         var iter = 0;
         $.each( data, function(index, value) {
 
-        items.push(`<div class="col-sm-4" >
-              <div class="panel panel-primary">
-                <div class="panel-heading">`+value['name']+`</div>
-                <div class="panel-body"><a href="/product/`+value["id"]+`"><img style="width: 190px;" src="`+ value['imageUrl'] +` " class="img-responsive" style="width:100%" alt="Image"><a/></div>
-                <div class="panel-footer">R$: `+value['price']+`</div>
-              </div>
-            </div>`);
+        items.push(`<a href="/product/`+value["id"]+`">
+                        <div class="col-sm-4" >
+                          <div class="panel panel-primary">
+                                <div class="panel-heading" style="height: 41px;">`+value['name']+`</div>
+                                <div class="panel-body"><img style="height: 250px;" src="`+ value['imageUrl'] +` " class="img-responsive" style="width:100%" alt="Image"></div>
+                                <div class="panel-footer">R$: `+value['price'].toFixed(2)+`</div>
+                          </div>
+                        </div><a/>`);
 
             iter++;
             if(iter == 6) {

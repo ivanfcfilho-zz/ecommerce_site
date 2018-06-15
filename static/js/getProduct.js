@@ -37,7 +37,7 @@ $(document).ready(function () {
                 }
                 if (productId != value["id"]) {
                     total += 1;
-                    items.push('<a href="/product/'+value["id"]+'"><div class="col-sm-4"><div class="panel panel-success"><div class="panel-heading">'+value["name"]+'</div><div class="panel-body"><img src="'+value["imageUrl"]+'"class="img-responsive" style="width:60%" alt="Image"></div></div></div></a>');
+                    items.push('<a href="/product/'+value["id"]+'"><div class="col-sm-4"><div class="panel panel-success"><div class="panel-heading">'+value["name"]+'</div><div class="panel-body"><img src="'+value["imageUrl"]+'"class="img-responsive" style="height: 250px;" alt="Image"></div></div></div></a>');
                 }
             });
             if (items.length != 0) {
@@ -65,9 +65,7 @@ $(document).ready(function () {
                 window.location.href = "/cart";
             },
             error: function(data, request, error){
-                res = JSON.parse(data.responseText)
-                alert('Error'+res.Message)
-                console.log(error);
+                console.log(error, data);
             }
         });
             

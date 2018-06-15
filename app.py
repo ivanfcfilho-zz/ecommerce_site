@@ -170,12 +170,11 @@ def addToCart():
     if id is None:
         print("Erro.")
         return "400"
-    '''
+
     r = aj.reserveProduct(id, True)
-    if (r[1] != 200):
-        print('Erro')
+    if (r[1] != 204):
+        print('Erro Reserva')
         return r
-    '''
     if session.get('cart') == None:
         d = [data]
         session['cart'] = d
@@ -319,9 +318,14 @@ def postTicket():
     return ret
 @app.route('/ajax/clearCart')
 def clearCart():
-    '''r = aj.reserveProduct(productId, False)
-    if (r[1] != 200):
-        print('Erro')'''
+
+    for item in cart:
+        item_id = item.get('id')
+        r = aj.reserveProduct(item_id, False)
+        if (r[1] != 204):
+            print('Erro Reserve')
+            return '', 404
+
     d = session['cart']
     d = []
     session['cart'] = d

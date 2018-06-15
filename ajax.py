@@ -71,7 +71,7 @@ class Ajax():
             url = self.url_product+"/reservation/reserve/"+productId
         else:
             url = self.url_product + "/reservation/release/" + productId
-        r = s.put(url)
+        r = s.put(url, json=1)
         return r.text, r.status_code
 
     def searchProduct(self, params):

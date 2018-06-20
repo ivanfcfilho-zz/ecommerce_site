@@ -9,6 +9,7 @@ aj = Ajax()
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///static/db/orders.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 db_connect = create_engine('sqlite:///orders.db')
 
@@ -345,5 +346,4 @@ def sendEmailPurchase():
     
 
 if __name__ == "__main__":
-    app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
     app.run(port=5001)

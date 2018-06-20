@@ -1,0 +1,8 @@
+Flask==0.11.1
+Flask-RESTful==0.3.5
+Flask-SQLAlchemy==2.1
+Flask-Jsonpify==1.5.0
+Ajax==3.0.0
+requests==2.18.4
+SQLAlchemy==1.2.5
+gunicorn==19.6.0
